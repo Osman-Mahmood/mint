@@ -1,6 +1,12 @@
 .navbar-nav a:hover{
     color: lightgray !important;
 }
+.bg_work{
+    background-image: url('../assets/intro.jpg');
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .intro_img{
     height: 95vh;
     position: relative;
@@ -61,12 +67,13 @@
 
 .container img {
                 /* padding: 75px;   */
-               margin-top: -40px;
-               margin-bottom: -40px;
+               /* margin-top: -40px;
+               margin-bottom: -40px; */
               transition: 0.4s ease;
               cursor: pointer;
-              height: 100px;
-              width: 100px;
+              height: 40px;
+              width: 40px;
+              
 }
 
 .btn {
@@ -100,7 +107,7 @@
 }
 
 .footer-link a {
-    color: #acacac;
+    color: white;
     line-height: 40px;
     font-size: 14px;
     transition: all 0.5s;
@@ -111,7 +118,7 @@
 }
 
 .contact-info {
-    color: #acacac;
+    color: white;
     font-size: 14px;
 }
 
@@ -146,7 +153,7 @@
 }
 
 .footer-alt {
-    color: #acacac;
+    color: white;
 }
 
 .footer-heading {
@@ -163,6 +170,13 @@
     bottom: 0;
     display: block;
     border-bottom: 1px solid #1bbc9b;
+}
+.bg-footer_img{
+    background-image: url('../assets/footer_bg1.jpg');
+    width: 100%;
+    /* object-fit: cover; */
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 
