@@ -6,7 +6,7 @@ const Mint = () => {
     <div class="back">
   <div className='row w-100 align-items-center'>
     <div className='col-lg-3'></div>
-    <div className='col-lg-6 align-items-center pt-5 pb-5'>
+    <div className='col-lg-6 align-items-center pb-5'>
     <div class="animate__animated animate bounce card w-100 justify-content-center ">
     <div class="container mt-3">
       <img src="https://i.ibb.co/gRpP2Lm/icons8-online-128.png" class="card-img-top " alt="..." /></div>

@@ -6,6 +6,8 @@
     width: 100%;
     background-repeat: no-repeat;
     background-position: center;
+    /* height: 50vw; */
+    padding: 120px !important;
 }
 .intro_img{
     height: 95vh;
@@ -104,6 +106,7 @@
 }
 .footer-heading {
     letter-spacing: 2px;
+    font-size: 29px;
 }
 
 .footer-link a {
@@ -186,4 +189,7 @@
     width: 100%;
     background-position: center;
     background-repeat: no-repeat;
+    /* height: auto; */
+padding-top: 80px;
+padding-bottom: 80px;
 }

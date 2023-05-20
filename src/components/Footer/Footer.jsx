@@ -8,25 +8,25 @@ const Footer = () => {
             <div class="row pt-3">
                 <div class="col-lg-3">
                     <div class="">
-                        <h6 class="footer-heading text-uppercase text-white">Product With Purpose</h6>
-                        <ul class="list-unstyled footer-link mt-4">
+                        <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6>
+                        {/* <ul class="list-unstyled footer-link mt-4">
                             <li><a href="">Women</a></li>
                             <li><a href="">Men</a></li>
                             <li><a href="">Kids & Youth</a></li>
                             <li><a href="">Hats</a></li>
-                        </ul>
+                        </ul> */}
                     </div>
                 </div>
 
                 <div class="col-lg-3">
                     <div class="">
                         <h6 class=" text-white"></h6>
-                        <ul class="list-unstyled footer-link mt-5">
+                        {/* <ul class="list-unstyled footer-link mt-5">
                             <li><a href="">Accessories</a></li>
                             <li><a href="">Home</a></li>
                             <li><a href="">LifeStyle</a></li>
                             <li><a href="">Content Guideline & Policies</a></li>
-                        </ul>
+                        </ul> */}
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@ const Footer = () => {
         </div>
 
         <div class="text-center mt-5">
-            <p class="footer-alt mb-0 f-14">2023 © Copyright, All Rights Reserved</p>
+            <p class="footer-alt pb-3 mb-0 f-14">2023 © Copyright, All Rights Reserved</p>
         </div>
     </footer>
     </div>
