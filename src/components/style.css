@@ -474,7 +474,7 @@ td {
     font-weight: 600;
   }
   .new_box{
-    background: #222;
+    background: white;
     margin-top: 20px;
     /* padding: 20px; */
   
@@ -518,21 +518,21 @@ td {
     width: 102px;
     font: bold 15px 'Droid Sans', Arial, sans-serif;
     color: #f47321;
-    text-shadow: 1px 1px 0px #000;
+    /* text-shadow: 1px 1px 0px #000; */
     text-align: center;
     text-transform: uppercase;
     display: inline-block;
   font-size: 12px;
   }
   .new_box_2{
-    background: #222;
+    background: white;
     margin-top: 20px;
   }
   .new_box_2 p{
     /* width: 102px; */
     font: bold 15px 'Droid Sans', Arial, sans-serif;
     color: #f47321;
-    text-shadow: 1px 1px 0px #000;
+    /* text-shadow: 1px 1px 0px #000; */
     text-align: center;
     text-transform: uppercase;
     display: inline-block;
@@ -561,7 +561,7 @@ td {
         display: inline-block;
         position: relative;
     }
-    .new_box p {
+    /* .new_box p {
         width: 83px;
         font: bold 15px 'Droid Sans', Arial, sans-serif;
         color: #f47321;
@@ -570,7 +570,7 @@ td {
         text-transform: uppercase;
         display: inline-block;
         font-size: 12px;
-    }
+    } */
     .btn_height {
         margin-left: 0px;
         margin-top: 8px;
@@ -578,4 +578,20 @@ td {
         /* height: 70px; */
         width: 100%;
     }
+  }
+  .timer li{
+    width: 20px;
+    max-width: 92px;
+    font: bold 12px 'Droid Sans', Arial, sans-serif;
+    text-align: center;
+    color: #111;
+    background-color: #ddd;
+    background-image: -o-linear-gradient(top, #bbb, #eee);
+    border-top: 1px solid #fff;
+    border-radius: 3px;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.7);
+    margin-top: 7px;
+    /* padding: 18px 0; */
+    display: inline-block;
+    position: relative;
   }

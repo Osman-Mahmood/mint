@@ -194,27 +194,27 @@ const Dashboard = () => {
              <div className='new_box pt-3 d-flex rounded justify-content-between'>
                 <div className='d-block text-center '>
                   <h5>02</h5>
-                  <p>Days</p>
+                  <p className='text-primary'>Days</p>
                 </div>
                 <div className='d-block  text-center'>
                   <h5>02</h5>
-                  <p>Hours</p>
+                  <p className='text-primary'>Hours</p>
                 </div>
                 <div className='d-block  text-center'>
                   <h5>02</h5>
-                  <p>Minutes</p>
+                  <p className='text-primary'>Minutes</p>
                 </div>
                 <div className='d-block text-center'>
                   <h5>02</h5>
-                  <p>Seconds</p>
+                  <p className='text-primary'>Seconds</p>
                 </div>
              </div>
                     </div>
                     <div className='col-lg-6 col-sm-12'>
                     <div className='new_box_2 p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between'>
                         <div className='time d-lg-block d-flex gap-lg-0 gap-5'>
-                            <h6 className='text-white text-start'>Remaining Time</h6>
-                            <div className='timer text-white d-flex'>
+                            <h6 className='text-dark text-start'>Remaining Time</h6>
+                            <div className='timer text-dark d-flex'>
                                 <li>03</li>
                                 <li>04</li>
                                 <li>59</li>
@@ -222,8 +222,8 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className='d-lg-block d-flex gap-lg-0 gap-5'>
-                        <h6 className='text-white'>Contract Address</h6>
-                <p className='text-white mt-2 text-truncate'>adresssssskdkslkdslkdlskdlklsldkslkdlskdlksl</p>
+                        <h6 className='text-dark'>Contract Address</h6>
+                <p className='text-dark mt-2 text-truncate'>adresssssskdkslkdslkdlskdlklsldkslkdlskdlksl</p>
                         </div>
                         <div>
                         <button className='btn btn-light btn_height'>Winner</button>
