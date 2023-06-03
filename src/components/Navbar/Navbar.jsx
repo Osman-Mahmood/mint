@@ -37,9 +37,9 @@ function NavbarMenu() {
         <ConnectButton />
         </button>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
+        <Navbar.Collapse className='' id="responsive-navbar-nav">
           <Nav className='ms-auto'></Nav>
-          <Nav className="px-3">
+          {/* <Nav className="px-3">
           <NavLink className="ms-2 p-1 text-white text-decoration-none" to="/">Dashboard</NavLink>
             <NavLink className="ms-3 text-white text-decoration-none" to="mint">Mint</NavLink>
             <NavLink className="ms-3 text-white text-decoration-none" to="claim">Claim</NavLink>
@@ -47,8 +47,8 @@ function NavbarMenu() {
               Transfer
             </NavLink>
 
-          </Nav>
-          <Nav className='w-50 '>
+          </Nav> */}
+          <Nav className='w-50 justify-content-end'>
           <ConnectButton />
             {/* <select name="" id="" className='form-select form-select-lg mb-3 w-25 rounded-pill'
             

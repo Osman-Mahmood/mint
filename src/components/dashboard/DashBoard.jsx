@@ -153,7 +153,7 @@ const Dashboard = () => {
     }, [])
     return (
         <div className='container-fluid  text-white dashboard' >
-            <div className='row d-flex justify-content-center mb-3' style={{ height: "60px" }}>
+            {/* <div className='row d-flex justify-content-center mb-3' style={{ height: "60px" }}>
                 <div className='d-flex justify-content-around  w-25 bg-light text-dark rounded' >
                     <div>
                         <GiPodiumWinner />
@@ -169,8 +169,73 @@ const Dashboard = () => {
 
                     </div>
                 </div>
+            </div> */}
+            <div className=''>
+            <div className='row'>
+                    <div className='col-lg-6 col-sm-12'>
+                    {/* <div id="countdown">
+                <div id='' className='tiles  d-flex font'>
+                    <li className='box2'>24</li>
+                    <li className='box2'>02</li>
+                    <li className='box2'>59</li>
+                    <li className='box2'>50</li>
+                </div>
+                <div class="labels">
+                    <li>Days</li>
+                    <li>Hours</li>
+                    <li>Mins</li>
+                    <li>Secs</li>
+                </div>
+                <div className='new_box'>
+
+                </div>
+
+            </div> */}
+             <div className='new_box pt-3 d-flex rounded justify-content-between'>
+                <div className='d-block text-center '>
+                  <h5>02</h5>
+                  <p>Days</p>
+                </div>
+                <div className='d-block  text-center'>
+                  <h5>02</h5>
+                  <p>Hours</p>
+                </div>
+                <div className='d-block  text-center'>
+                  <h5>02</h5>
+                  <p>Minutes</p>
+                </div>
+                <div className='d-block text-center'>
+                  <h5>02</h5>
+                  <p>Seconds</p>
+                </div>
+             </div>
+                    </div>
+                    <div className='col-lg-6 col-sm-12'>
+                    <div className='new_box_2 p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between'>
+                        <div className='time d-lg-block d-flex gap-lg-0 gap-5'>
+                            <h6 className='text-white text-start'>Remaining Time</h6>
+                            <div className='timer text-white d-flex'>
+                                <li>03</li>
+                                <li>04</li>
+                                <li>59</li>
+                                <li>60</li>
+                            </div>
+                        </div>
+                        <div className='d-lg-block d-flex gap-lg-0 gap-5'>
+                        <h6 className='text-white'>Contract Address</h6>
+                <p className='text-white mt-2 text-truncate'>adresssssskdkslkdslkdlskdlklsldkslkdlskdlksl</p>
+                        </div>
+                        <div>
+                        <button className='btn btn-light btn_height'>Winner</button>
+                        </div>
+                       
+                       
             </div>
-            <div className='row d-flex justify-content-center ' style={{ height: "50px" }}>
+                        </div>
+               
+            </div>
+           </div>
+            {/* <div className='row d-flex justify-content-center ' style={{ height: "50px" }}>
                 <div className='d-flex justify-content-around  w-50 bg-light text-dark rounded' >
                     <div>
                         <GiPodiumWinner />
@@ -182,7 +247,7 @@ const Dashboard = () => {
                     } 
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className='row '>
                 <div className='col-lg-6 col-sm-12'>
                     <div className='box'>
@@ -192,7 +257,7 @@ const Dashboard = () => {
                             <Table borderless>
                                 <thead>
                                     <tr className=''>
-                                        <th>U-Assets</th>
+                                        <th className='text-center'>U-Assets</th>
                                         <th className='text-center'>U-Wallet Balance</th>
                                     </tr>
                                 </thead>
@@ -202,8 +267,9 @@ const Dashboard = () => {
                                             {isConnected ? `U-${chain.nativeCurrency.symbol}` : <Skeleton />}
                                         </td>
                                         <td className='text-center'>{uNativeBal ? Number(uNativeBal) : <Skeleton />}</td>
-                                        <td> <  ClaimModal symbol={chain.nativeCurrency.symbol} claimType="native" /></td>
-                                        <td>< TransferModal symbol={chain.nativeCurrency.symbol} transferType="native" /></td>
+                                        
+                                          <td> { isConnected && <ClaimModal symbol={chain?.nativeCurrency.symbol} claimType="native" />} </td>
+                                        <td>{isConnected && <TransferModal symbol={chain?.nativeCurrency.symbol} transferType="native" />}</td>
                                     </tr>
 
                                     {tokensList?.map((item) => {
@@ -246,7 +312,7 @@ const Dashboard = () => {
                                             {isConnected ? chain.nativeCurrency.symbol : <Skeleton />}
                                         </td>
                                         <td className='text-center'>{nativeBal ? Number(nativeBal).toFixed(6) : <Skeleton />}</td>
-                                        <td>  <MintModal symbol={chain.nativeCurrency.symbol} mintType="native" /></td>
+                                        <td>  {isConnected && <MintModal symbol={chain.nativeCurrency.symbol} mintType="native" />}</td>
                                         <td>  <Button variant="primary" >
                                             Detail
                                         </Button></td>
