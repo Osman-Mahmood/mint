@@ -3,7 +3,7 @@ import intro from '../../assets/intro.jpg'
 import '../style.css'
 const Intro = () => {
   return (
-    <div className='container-fluid p-5 bg_work text-white pb-3'>
+    <div className='container-fluid p-5  text-white pb-3'>
       {/* <img className='w-100 img-fluid intro_img' src={intro} alt="" /> */}
       {/* <h1 className='text-white intro_text'>Distributed systems <br />
         & <br />
