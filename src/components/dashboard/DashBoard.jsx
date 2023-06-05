@@ -10,6 +10,7 @@ import ClaimModal from './ClaimModal';
 import factoryAbi from '../../instances/abis/factoryAbi.json';
 import factoryEthAbi from "../../instances/abis/factoryEthAbi.json"
 import Skeleton from 'react-loading-skeleton'
+import toast from 'react-hot-toast';
 import { useAccount, useBalance, useContractRead, erc20ABI, useChainId, useNetwork } from 'wagmi';
 import { factoryAddress, factoryEthAddresss } from '../../instances/addresses';
 import TokenBalance from './renders/TokenBalance';
@@ -91,48 +92,39 @@ const Dashboard = () => {
         }
     }
     useEffect(() => {
-
         getUTokens()
         if (isConnected) {
             getBal()
             nativeUBal()
         }
-
     }, [isConnected, chain, isReferesh]);
-    // Random component
-   
 
-    // Renderer callback with condition
-    const renderer = ({ days,hours, minutes, seconds, completed }) => {
-        if (completed) {
-            // Render a completed state
+    const withDrawReward = async () => {
+        try {
+            let contract = null
+            let provider = new ethers.providers.Web3Provider(window.ethereum);
+            let signer = provider.getSigner();
+            if (chainId == 5) {
+                contract = new Contract(factoryEthAddresss, factoryAbi, signer);
+            } else if (chainId == 80001) {
+                contract = new Contract(factoryAddress, factoryAbi, signer);
+            }
+            const tx = await contract.withdrawReward();
+            await tx.wait();
             getWinnerTime()
-        } else {
-            // Render a countdown
-            // return <span>{hours}:{minutes}:{seconds}</span>;
-            return <div id="countdown">
-            <div id='tiles'>
-            {/* <span>{hours}:{minutes}:{seconds}</span> */}
-            <span>{days}</span>
-            <span>{hours}</span>
-            <span>{minutes}</span>
-            <span>{seconds}</span>
-            
-            </div>
-            <div class="labels">
-              <li>Days</li>
-              <li>Hours</li>
-              <li>Mins</li>
-              <li>Secs</li>
-            </div>
-          </div>
+            toast.success("Bouns cashed successfully")
+        } catch (error) {
+            console.error("error while withdraw reward", JSON.parse(JSON.stringify(error)));
         }
-    };
+    }
+   
     let [winnerTime, setWinnerTime] = useState(null);
     let [winnerAddress, setWinnerAddress] = useState(null);
-    let [winnerLimitTime, setWinnerLimitTime] = useState(Date.now())
+    let [winnerLimitTime, setWinnerLimitTime] = useState(null)
     const getWinnerTime = async () => {
         try {
+            setWinnerTime(null)
+            setWinnerLimitTime(null)
             let contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
             if (chainId == 5) {
                 contract = new Contract(factoryEthAddresss, factoryEthAbi, ETHProvider);
@@ -140,25 +132,69 @@ const Dashboard = () => {
                 contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
             }
             let { startTime, endTime } = await contract.get_CurrentPeriod_StartAndEndTime();
-            console.log("endTime, ", endTime.toNumber(), startTime.toNumber());
             setWinnerTime(endTime.toNumber());
-            let winnerAddress = await contract.get_currentWinner();
-            setWinnerAddress(winnerAddress)
+
+            let winnerAdd = await contract.get_currentWinner();
+            setWinnerAddress(winnerAdd)
+            let time = await contract.get_TimeLimitForWinnerForCurrentPeriod();
+            setWinnerLimitTime(time.toNumber())
+            console.log("time, ", time.toNumber());
         } catch (error) {
             console.error("error while get winner time", error);
         }
     }
+     // Renderer callback with condition
+     const renderer = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+            getWinnerTime()
+        } else {
+            return <div className='new_box pt-3 d-flex rounded justify-content-around'>
+                <div className='d-block text-center '>
+                    <h5>{days}</h5>
+                    <div className='text-primary mt-2 mb-2'>Days</div>
+                </div>
+                <div className='d-block  text-center'>
+                    <h5>{hours}</h5>
+                    <div className='text-primary mt-2 mb-2'>Hours</div>
+                </div>
+                <div className='d-block  text-center'>
+                    <h5>{minutes}</h5>
+                    <div className='text-primary mt-2 mb-2'>Minutes</div>
+                </div>
+                <div className='d-block text-center'>
+                    <h5>{seconds}</h5>
+                    <div className='text-primary mt-2 mb-2'>Seconds</div>
+                </div>
+            </div>
+
+        }
+    };
+    const withDrawLimitRender = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+            return <div className='timer text-danger d-flex'>
+                Withdraw time finished
+            </div>
+        } else {
+            return <div className='timer text-dark d-flex'>
+                <li>{days}</li>
+                <li>{hours}</li>
+                <li>{minutes}</li>
+                <li>{seconds}</li>
+            </div>
+
+        }
+    };
+
     useEffect(() => {
         getWinnerTime()
     }, [])
     return (
         <div className='container-fluid  text-white dashboard' >
-            {/* <div className='row d-flex justify-content-center mb-3' style={{ height: "60px" }}>
-                <div className='d-flex justify-content-around  w-25 bg-light text-dark rounded' >
-                    <div>
-                        <GiPodiumWinner />
-                    </div>
-                    <div>
+
+            <div className=''>
+                <div className='row '>
+                    <div className='col-lg-6 col-sm-12 '>
+
                         {
                             winnerTime == null ? <Skeleton /> :
                                 <Countdown
@@ -166,91 +202,46 @@ const Dashboard = () => {
                                     renderer={renderer}
                                 />
                         }
-
-                    </div>
-                </div>
-            </div> */}
-            <div className=''>
-            <div className='row'>
-                    <div className='col-lg-6 col-sm-12'>
-                    {/* <div id="countdown">
-                <div id='' className='tiles  d-flex font'>
-                    <li className='box2'>24</li>
-                    <li className='box2'>02</li>
-                    <li className='box2'>59</li>
-                    <li className='box2'>50</li>
-                </div>
-                <div class="labels">
-                    <li>Days</li>
-                    <li>Hours</li>
-                    <li>Mins</li>
-                    <li>Secs</li>
-                </div>
-                <div className='new_box'>
-
-                </div>
-
-            </div> */}
-             <div className='new_box pt-3 d-flex rounded justify-content-between'>
-                <div className='d-block text-center '>
-                  <h5>02</h5>
-                  <p className='text-primary'>Days</p>
-                </div>
-                <div className='d-block  text-center'>
-                  <h5>02</h5>
-                  <p className='text-primary'>Hours</p>
-                </div>
-                <div className='d-block  text-center'>
-                  <h5>02</h5>
-                  <p className='text-primary'>Minutes</p>
-                </div>
-                <div className='d-block text-center'>
-                  <h5>02</h5>
-                  <p className='text-primary'>Seconds</p>
-                </div>
-             </div>
                     </div>
                     <div className='col-lg-6 col-sm-12'>
-                    <div className='new_box_2 p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between'>
-                        <div className='time d-lg-block d-flex gap-lg-0 gap-5'>
-                            <h6 className='text-dark text-start'>Remaining Time</h6>
-                            <div className='timer text-dark d-flex'>
-                                <li>03</li>
-                                <li>04</li>
-                                <li>59</li>
-                                <li>60</li>
+                        <div className='new_box_2 p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between'>
+                            <div className='time d-lg-block d-flex gap-lg-0 gap-5'>
+                                <h6 className='text-dark text-start'>Remaning Time</h6>
+                                {
+                                    winnerLimitTime == null ? <Skeleton /> :
+                                        <Countdown
+                                            date={Date.now() + (((parseInt(winnerLimitTime) * 1000)) - Date.now())}
+                                            renderer={withDrawLimitRender}
+                                        />
+                                }
                             </div>
+                            <div className='d-lg-block d-flex gap-lg-0 gap-5'>
+                                <h6 className='text-dark'>Winner Address</h6>
+                                <p className='text-dark mt-2 '>{winnerAddress == null ?
+                                    <Skeleton /> :
+                                    winnerAddress
+                                }</p>
+                            </div>
+                            <div>
+                                {
+                                    winnerAddress != null ? 
+                                    <button className='btn btn-light btn_height' disabled={winnerAddress != address} onClick={withDrawReward}>Winner</button>
+                                    :
+                                    <Skeleton />
+                                }
+                                
+                            </div>
+
+
                         </div>
-                        <div className='d-lg-block d-flex gap-lg-0 gap-5'>
-                        <h6 className='text-dark'>Contract Address</h6>
-                <p className='text-dark mt-2 text-truncate'>adresssssskdkslkdslkdlskdlklsldkslkdlskdlksl</p>
-                        </div>
-                        <div>
-                        <button className='btn btn-light btn_height'>Winner</button>
-                        </div>
-                       
-                       
-            </div>
-                        </div>
-               
-            </div>
-           </div>
-            {/* <div className='row d-flex justify-content-center ' style={{ height: "50px" }}>
-                <div className='d-flex justify-content-around  w-50 bg-light text-dark rounded' >
-                    <div>
-                        <GiPodiumWinner />
                     </div>
-                    <div>
-                    {winnerAddress == null ? 
-                    <Skeleton /> :
-                    winnerAddress
-                    } 
-                    </div>
+
                 </div>
-            </div> */}
+            </div>
+
             <div className='row '>
                 <div className='col-lg-6 col-sm-12'>
-                    <div className='box'>
+                    <div className='box '>
                         <div className='box_content p-3'>
                             <h5>Your Deposit</h5>
 
@@ -267,8 +258,8 @@ const Dashboard = () => {
                                             {isConnected ? `U-${chain.nativeCurrency.symbol}` : <Skeleton />}
                                         </td>
                                         <td className='text-center'>{uNativeBal ? Number(uNativeBal) : <Skeleton />}</td>
-                                        
-                                          <td> { isConnected && <ClaimModal symbol={chain?.nativeCurrency.symbol} claimType="native" />} </td>
+
+                                        <td> {isConnected && <ClaimModal symbol={chain?.nativeCurrency.symbol} claimType="native" />} </td>
                                         <td>{isConnected && <TransferModal symbol={chain?.nativeCurrency.symbol} transferType="native" />}</td>
                                     </tr>
 
@@ -313,9 +304,11 @@ const Dashboard = () => {
                                         </td>
                                         <td className='text-center'>{nativeBal ? Number(nativeBal).toFixed(6) : <Skeleton />}</td>
                                         <td>  {isConnected && <MintModal symbol={chain.nativeCurrency.symbol} mintType="native" />}</td>
-                                        <td>  <Button variant="primary" >
+                                        <td> 
+                                             {/* <Button variant="primary" >
                                             Detail
-                                        </Button></td>
+                                        </Button> */}
+                                        </td>
                                     </tr>
                                     {
                                         tokensList?.map((item) => {
@@ -334,9 +327,11 @@ const Dashboard = () => {
                                                     mintType="token"
                                                     tokenAddress={item.address}
                                                     variant="primary" /></td>
-                                                <td>  <Button variant="primary" >
+                                                <td>  
+                                                    {/* <Button variant="primary" >
                                                     Detail
-                                                </Button></td>
+                                                </Button> */}
+                                                </td>
                                             </tr>
                                         })
                                     }
@@ -352,8 +347,8 @@ const Dashboard = () => {
 
 export default Dashboard
 
-const Completionist = ({getWinnerTime}) => {
-    useEffect(()=>{
+const Completionist = ({ getWinnerTime }) => {
+    useEffect(() => {
         getWinnerTime()
-    },[])
+    }, [])
 };
