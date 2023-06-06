@@ -87,13 +87,13 @@ export default function PasswordModal({ show, handleClose }) {
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Password Alert!</Modal.Title>
+                    <Modal.Title>Master Key</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h3>Set Password</h3>
+                    {/* <h3>Set Password</h3> */}
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Phrase</Form.Label>
+                            {/* <Form.Label>Phrase</Form.Label> */}
                             <div className='d-flex'>
 
                                 <Form.Control 
@@ -108,15 +108,14 @@ export default function PasswordModal({ show, handleClose }) {
                                 ><FiCopy /></button>
                             </div>
 
-                            <Form.Text className=" text-warning">
-                                <IoWarningOutline /> This recevery phrase is shown ones please save it and use it to recever your password.
-                                If you lost it you will never be able to recver to you password and perform any transaction on this platform.
+                            <Form.Text className=" text-dark fw-bold list">
+                               => The above , is your encrypted and randomly-generated Master Key. Copy and save it in a safe place. <br/>=> It is only presented once. DO NOT LOSE IT. <br />=> Only with the Master Key you can reset or change your password in case you forget your password.
                             </Form.Text>
 
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>Set Password</Form.Label>
                             <div className='d-flex'>
                             <Form.Control
                             className='w-75'

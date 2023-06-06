@@ -160,15 +160,20 @@ const Mint = ({ mintType, tokenAddress, onHide }) => {
               <div className="container mt-3">
                 <img src="https://i.ibb.co/gRpP2Lm/icons8-online-128.png" className="card-img-top " alt="..." /></div>
               <div className="card-body">
-                <h5 className="card-title ms-1">Mint Now</h5>
+                {/* <h5 className="card-title ms-1">Mint Now</h5> */}
 
                 <div>
-                  <p className="card-text mb-2 ms-1">See more Mint Plans and interact with us</p>
+                  {/* <p className="card-text mb-2 ms-1">See more Mint Plans and interact with us</p> */}
                   <label htmlFor="">Amount</label>
+                  <div className='d-flex align-items-center'>
                   <input type='number' className='mb-3 w-100 rounded border mt-3 p-2'
                     placeholder='Enter ether amount'
                     onChange={(e) => { setEtherAmount(e.target.value) }}
                   />
+                  <button className='w-25 ms-1 rounded btn btn-dark'
+>MAX</button> 
+                  </div>
+                 
                   <label htmlFor="" className='col-12'>Password</label>
                   <div className='d-flex'>
 
@@ -184,12 +189,12 @@ const Mint = ({ mintType, tokenAddress, onHide }) => {
 
                     </button>
                   </div>
-                  <div className='text-danger text-end mt-1 mb-1' style={{ cursor: "pointer" }} onClick={handleShow1}>Forgot Password</div>
+                  <div className='text-primary text-end mt-1 mb-1' style={{ cursor: "pointer" }} onClick={handleShow1}>Forgot Password</div>
                   <button className="btn btn-primary mb-1 mt-1 "
                     disabled={!isConnected}
                     onClick={() => mintU_tokens()}>
                     {
-                      isLoading ? <ScaleLoader color="#36d7b7" /> : "Mint"
+                      isLoading ? <ScaleLoader color="#36d7b7" /> : "Protect"
                     }
                   </button>
                 </div>

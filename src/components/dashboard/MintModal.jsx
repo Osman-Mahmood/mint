@@ -18,7 +18,7 @@ function MintModal({symbol, tokenAddress, mintType}) {
 
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Deposit {symbol}</Modal.Title>
+                    <Modal.Title>Protect your  {symbol}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Mint mintType={mintType} tokenAddress={tokenAddress} onHide={handleClose} />
