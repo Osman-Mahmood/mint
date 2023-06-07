@@ -90,13 +90,13 @@ export default function RecoverPasswordModal({ show, handleClose }) {
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Password Alert!</Modal.Title>
+                    <Modal.Title>Reset Password!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h3>Recover Password</h3>
+                    {/* <h3>Recover Password</h3> */}
                     <Form>
                         {!isEnable && <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Phrase</Form.Label>
+                            <Form.Label>Master Key</Form.Label>
                             
 
                                 <Form.Control type="text"

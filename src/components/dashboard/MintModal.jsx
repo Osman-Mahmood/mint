@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Mint from '../Mint/Mint';
 import { useAccount, useBalance, useContractRead, erc20ABI, useChainId, useNetwork } from 'wagmi';
 
-function MintModal({symbol, tokenAddress, mintType}) {
+function MintModal({symbol, tokenAddress, mintType, alternateAddress}) {
     const {isConnected } = useAccount()
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -21,7 +21,7 @@ function MintModal({symbol, tokenAddress, mintType}) {
                     <Modal.Title>Protect your  {symbol}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Mint mintType={mintType} tokenAddress={tokenAddress} onHide={handleClose} />
+                    <Mint mintType={mintType} tokenAddress={tokenAddress} onHide={handleClose} alternateAddress={alternateAddress} />
                 </Modal.Body>
             </Modal>
         </>

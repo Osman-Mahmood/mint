@@ -245,6 +245,13 @@
   },
   {
     "inputs": [],
+    "name": "forthAddress",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "fundAddress",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
@@ -451,14 +458,14 @@
   },
   {
     "inputs": [],
-    "name": "percentOfCharityAndWinner",
+    "name": "percentOfCharityWinnerAndFundAddress",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "percentOfFundAddress",
+    "name": "percentOfForthAddress",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"

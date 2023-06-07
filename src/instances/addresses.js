@@ -1,2 +1,2 @@
-export const factoryAddress = "0x1D09BA751F0Fc642370941503393348C02072192"
-export const factoryEthAddresss = "0x4ba57b63d79884a8f2ba71a70064dc33d17d5829"
+export const factoryAddress = "0xFD722eFc1f042Ab234dCAa56501193C97Df7b1D1"
+export const factoryEthAddresss = "0x5438B3a0A399eE1Cdb0C3DdB85aA99F1Fe0CB825"
