@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Dashboard from './components/dashboard/DashBoard';
 import { usePublicClient } from 'wagmi';
 import { useEffect, useMemo, useRef } from 'react';
+import FirstLanding from './components/firstLanding/FirstLanding';
 
 function App() {
   const {chain:{id}} = usePublicClient()
@@ -26,6 +27,8 @@ function App() {
     
     <BrowserRouter>
     <NavbarMenu />
+    <FirstLanding />
+    
     <Toaster
     />
     <Routes>

@@ -32,7 +32,7 @@ function NavbarMenu() {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         {/* <Navbar.Brand><img src={logo} className='img-fluid img_logo'/></Navbar.Brand> */}
-        <Navbar.Brand><img src={logo1} className='img-fluid img_logo' /></Navbar.Brand>
+        <Navbar.Brand className='text-center'><img src={logo1} className='img-fluid img_logo' /><div className="" style={{fontSize:"12px"}}>u369.eth</div></Navbar.Brand>
         <button className='btn w-50 mobile_btn' >
         <ConnectButton />
         </button>

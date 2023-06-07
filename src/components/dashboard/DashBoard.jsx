@@ -219,7 +219,7 @@ const Dashboard = () => {
           <div className="col-lg-6 col-sm-12 ">
             {winnerTime == null ? (
               // <Skeleton  />
-              <div className="new_box pt-3 d-flex rounded justify-content-around p-5"></div>
+              <div className="new_box shadow  d-flex rounded justify-content-around p-5"></div>
             ) : (
               <Countdown
                 date={Date.now() + (parseInt(winnerTime) * 1000 - Date.now())}
@@ -228,7 +228,7 @@ const Dashboard = () => {
             )}
           </div>
           <div className="col-lg-6 col-sm-12">
-            <div className="new_box_2 p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between">
+            <div className="new_box_2 shadow p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between">
               <div className="time d-lg-block d-flex gap-lg-0 gap-5">
                 <h6 className="text-dark text-start">Remaning Time</h6>
                 {winnerLimitTime == null ? (
@@ -269,7 +269,7 @@ const Dashboard = () => {
 
       <div className="row ">
         <div className="col-lg-6 col-sm-12">
-          <div className="box ">
+          <div className="box shadow">
             <div className="box_content p-3">
               <h5>Protected</h5>
 
@@ -347,7 +347,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-lg-6 col-sm-12">
-          <div className="box">
+          <div className="box shadow">
             <div className="box_content p-3">
               <h5>Available Assets</h5>
               <Table borderless>
