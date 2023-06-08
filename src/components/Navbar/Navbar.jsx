@@ -33,10 +33,10 @@ function NavbarMenu() {
       <Container>
         {/* <Navbar.Brand><img src={logo} className='img-fluid img_logo'/></Navbar.Brand> */}
         <Navbar.Brand className='text-center'><img src={logo1} className='img-fluid img_logo' /><div className="" style={{fontSize:"12px"}}>u369.eth</div></Navbar.Brand>
-        <button className='btn w-50 mobile_btn' >
+        <button className='new_btn w-50 mobile_btn text-end justify-content-end' >
         <ConnectButton />
         </button>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
         <Navbar.Collapse className='' id="responsive-navbar-nav">
           <Nav className='ms-auto'></Nav>
           {/* <Nav className="px-3">

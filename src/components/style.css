@@ -309,16 +309,24 @@ td {
 }
 
 .mobile_btn {
-    display: none;
+    display: none ;
 }
 
 .dekstop_btn {
     display: block;
 }
-
+@media only screen and (max-width: 1000px) {
+    .mobile_btn {
+        display: flex;
+        justify-content: end;
+        text-align: end;
+    }
+}
 @media only screen and (max-width: 425px) {
     .mobile_btn {
-        display: block;
+        display: flex;
+        justify-content: end;
+        text-align: end;
     }
 
     .dekstop_btn {
@@ -612,4 +620,9 @@ td {
     background-size: cover;
     height: 40vh;
 
+  }
+  .new_btn{
+    background: transparent;
+    outline: none;
+    border: none;
   }

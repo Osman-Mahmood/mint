@@ -245,7 +245,7 @@ const Dashboard = () => {
               </div>
               <div className="d-lg-block d-flex gap-lg-0 gap-5">
                 <h6 className="text-dark">Winner Address</h6>
-                <p className="text-dark mt-2 ">
+                <p className="text-dark mt-2 " style={{overflowWrap:"anywhere"}}>
                   {winnerAddress == null ? <Skeleton /> : winnerAddress}
                 </p>
               </div>
