@@ -11,6 +11,7 @@ import { factoryAddress, factoryEthAddresss } from "../../instances/addresses"
 import factoryAbi from "../../instances/abis/factoryAbi.json";
 import factoryEthAbi from "../../instances/abis/factoryEthAbi.json"
 import { useSelector } from 'react-redux';
+import { toast } from 'react-hot-toast';
 export default function PasswordModal({ show, handleClose }) {
     // const { address, isConnecting, isDisconnected, isConnected } = useAccount();
     const chainId = useChainId();
@@ -40,6 +41,7 @@ export default function PasswordModal({ show, handleClose }) {
     const copyPhrase = (e) => {
         e.preventDefault()
         navigator.clipboard.writeText(phrase)
+        toast.success('copied')
     }
     const [pass, setPass] = useState({
         password: "",
@@ -59,7 +61,7 @@ export default function PasswordModal({ show, handleClose }) {
                 return
             }
             if (password !== confirmPassword) {
-                setIsMessage("Password does't match")
+                setIsMessage("Password doesn't match")
                 setIsShowMessage(true)
                 return
             }
@@ -104,14 +106,27 @@ export default function PasswordModal({ show, handleClose }) {
                                     type="password"
                                 />
                                 <button className='w-25 btn btn-light border rounded ms-1'
-                                    onClick={(e) => copyPhrase(e)}
+                                    onClick={(e) => {copyPhrase(e);}}
                                 ><FiCopy /></button>
+                                
+                               
+                            
+                                
                             </div>
 
                             <Form.Text className=" text-dark fw-bold list">
-                               => The above , is your encrypted and randomly-generated Master Key. Copy and save it in a safe place. <br/>=> It is only presented once. DO NOT LOSE IT. <br />=> Only with the Master Key you can reset or change your password in case you forget your password.
+                                <ul>
+                                    <li>The above is your encrypted and randomly-generated Master key. 
+ It s only presented once.</li>
+                               <li>Before setting your password, copy and save the Master Key in a safe place.
+Only with the Master Key you can reset or change your password. </li>
+                               <li>Your uTokens can only be moved after inputting your password.
+If you forget your password and do not have the Master Key, you won’t be able to interact with this smart contract.</li>
+                                </ul>
+                              
                             </Form.Text>
-
+                       <input type="checkbox" />
+                       <label htmlFor="" className='ms-3'>I acknowledge</label>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -120,7 +135,7 @@ export default function PasswordModal({ show, handleClose }) {
                             <Form.Control
                             className='w-75'
                             type={isSeePass ? "text" : "password"}
-                            placeholder="Password"
+                            placeholder=""
                                 onChange={(e) => {
                                     setPass({ ...pass, password: e.target.value })
                                 }}
@@ -141,17 +156,13 @@ export default function PasswordModal({ show, handleClose }) {
                             <div className='d-flex'>
                             <Form.Control 
                             type={isSeeCPass ? "text" : "password"}
-                             placeholder="Confirm Password"
+                             placeholder=""
                             className='w-75'
                                 onChange={(e) => {
                                     setPass({ ...pass, confirmPassword: e.target.value })
                                 }}
                             />
-                            {
-                                isShowMessage && <Form.Text className='text-danger'>
-                                    {message}
-                                </Form.Text>
-                            }
+                          
                              <button className='w-25 btn btn-light border rounded ms-1'
                                     onClick={(e) => seeCPass(e)}
                                 >
@@ -159,7 +170,13 @@ export default function PasswordModal({ show, handleClose }) {
                                         isSeeCPass ? <AiFillEyeInvisible/> : <AiFillEye />
                                     }
                                     </button>
+                                   
                                 </div>
+                                {
+                                isShowMessage && <Form.Text className='text-danger'>
+                                    {message}
+                                </Form.Text>
+                            }
                         </Form.Group>
                     </Form>
                 </Modal.Body>

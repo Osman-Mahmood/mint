@@ -195,7 +195,7 @@ const Dashboard = () => {
   }) => {
     if (completed) {
       return (
-        <div className="timer text-danger d-flex">Withdraw time finished</div>
+        <div className="timer text-danger d-flex">Claim Time Finished</div>
       );
     } else {
       return (
@@ -244,7 +244,7 @@ const Dashboard = () => {
                 )}
               </div>
               <div className="d-lg-block d-flex gap-lg-0 gap-5">
-                <h6 className="text-dark">Winner Address</h6>
+                <h6 className="text-dark">Winner gets the amount to be awarded</h6>
                 <p className="text-dark mt-2 " style={{overflowWrap:"anywhere"}}>
                   {winnerAddress == null ? <Skeleton /> : winnerAddress}
                 </p>
@@ -252,11 +252,11 @@ const Dashboard = () => {
               <div>
                 {winnerAddress != null ? (
                   <button
-                    className="btn btn-light btn_height"
+                    className="btn btn-primary btn_height"
                     disabled={winnerAddress != address}
                     onClick={withDrawReward}
                   >
-                    Winner
+                    Claim
                   </button>
                 ) : (
                   <Skeleton />
@@ -271,7 +271,7 @@ const Dashboard = () => {
         <div className="col-lg-6 col-sm-12">
           <div className="box shadow">
             <div className="box_content p-3">
-              <h5>Protected</h5>
+              <h5 className="text-center fw-bold">uTokens</h5>
 
               <Table borderless>
                 <thead>
@@ -349,12 +349,12 @@ const Dashboard = () => {
         <div className="col-lg-6 col-sm-12">
           <div className="box shadow">
             <div className="box_content p-3">
-              <h5>Available Assets</h5>
+              <h5 className="text-center fw-bold">Can be uTokens</h5>
               <Table borderless>
                 <thead>
                   <tr>
                     <th className="text-center">Tokens</th>
-                    <th className="text-center">Assets</th>
+                    <th className="text-center">Balance</th>
                   </tr>
                 </thead>
                 <tbody>

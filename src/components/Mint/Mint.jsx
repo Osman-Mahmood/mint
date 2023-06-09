@@ -14,6 +14,7 @@ import { rpc } from "../../utils";
 import PasswordModal from "../passwordModal/PasswordModal";
 import { refreshBalance } from "../../store/wallet/wallet";
 import RecoverPasswordModal from "../passwordModal/RecoverPasswordModal";
+import image from '../../assets/image.png'
 const rpcUrl = new Web3(rpc);
 
 const Mint = ({ mintType, tokenAddress, onHide, alternateAddress }) => {
@@ -205,8 +206,9 @@ const Mint = ({ mintType, tokenAddress, onHide, alternateAddress }) => {
             <div className="animate__animated animate bounce card w-100 justify-content-center ">
               <div className="container mt-3">
                 <img
-                  src="https://i.ibb.co/gRpP2Lm/icons8-online-128.png"
+                  src={image}
                   className="card-img-top "
+                  style={{height:"auto"}}
                   alt="..."
                 />
               </div>

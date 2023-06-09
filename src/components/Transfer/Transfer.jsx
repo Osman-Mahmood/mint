@@ -13,6 +13,7 @@ import RecoverPasswordModal from '../passwordModal/RecoverPasswordModal';
 import PasswordModal from '../passwordModal/PasswordModal';
 import { useAccount, useBalance, useContractRead, erc20ABI, useChainId, useNetwork } from 'wagmi';
 import { Contract, ethers } from 'ethers';
+import image from '../../assets/image.png'
 const rpcUrl = new Web3(rpc)
 const Claim = ({ transferType, tokenAddress, onHide }) => {
   const { address, isConnecting, isDisconnected, isConnected } = useAccount();
@@ -146,9 +147,9 @@ const Claim = ({ transferType, tokenAddress, onHide }) => {
           <div className='col-lg-12 align-items-center  '>
             <div class="animate__animated animate bounce card w-100 d-flex justify-content-center ">
               <div class="container mt-3">
-                <img src="https://i.ibb.co/gRpP2Lm/icons8-online-128.png" class="card-img-top " alt="..." /></div>
+                <img src={image} class="card-img-top " style={{height:"auto"}} alt="..." /></div>
               <div class="card-body">
-                <h5 class="card-title ms-1">Transfer U-Tokens</h5>
+                <h5 class="card-title ms-1">Transfer uTokens</h5>
 
                 <div>
                   <div><span>Recipient address</span></div>
@@ -182,7 +183,7 @@ const Claim = ({ transferType, tokenAddress, onHide }) => {
                       }
                     </button>
                   </div>
-                  <div className='text-danger text-end mt-1 mb-1' style={{ cursor: "pointer" }} onClick={handleShow1}>Forgot Password</div>
+                  <div className='text-primary text-end mt-1 mb-1' style={{ cursor: "pointer" }} onClick={handleShow1}>Forgot Password</div>
                   <button className="btn btn-primary mb-1 mt-1"
                     disabled={!isConnected}
                     onClick={() => transferUTokens()}>

@@ -11,6 +11,7 @@ import { rpc } from '../../utils';
 import { useAccount, erc20ABI, useChainId } from 'wagmi';
 import { Contract, ethers } from 'ethers';
 import RecoverPasswordModal from '../passwordModal/RecoverPasswordModal';
+import image from '../../assets/image.png'
 import PasswordModal from '../passwordModal/PasswordModal';
 const rpcUrl = new Web3(rpc)
 const Claim = ({ claimType, tokenAddress, onHide }) => {
@@ -141,7 +142,7 @@ const Claim = ({ claimType, tokenAddress, onHide }) => {
         <div className='col-lg-12 align-items-center'>
           <div class="animate__animated animate bounce card w-100 justify-content-center ">
             <div class="container mt-3">
-              <img src="https://i.ibb.co/gRpP2Lm/icons8-online-128.png" class="card-img-top " alt="..." /></div>
+              <img src={image} class="card-img-top " style={{height:"auto"}} alt="..." /></div>
             <div class="card-body">
               <h5 class="card-title ms-1">Claim Now</h5>
               <div>

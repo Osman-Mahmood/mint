@@ -18,7 +18,7 @@ function TransferModal({symbol, transferType, tokenAddress}) {
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Transfer U-{symbol}</Modal.Title>
+          <Modal.Title>Transfer u{symbol}</Modal.Title>
         </Modal.Header>
         <Modal.Body><Transfer tokenAddress={tokenAddress} transferType={transferType} onHide={handleClose} /></Modal.Body>
       </Modal>

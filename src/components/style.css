@@ -6,7 +6,7 @@
     padding-top: 10px;
 }
 .bg_work {
-    background-image: url('../assets/intro.jpg');
+    /* background-image: url('../assets/intro.jpg'); */
     width: 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -62,7 +62,7 @@
 
 .card .container {
     width: 88%;
-    background: #F0EEF8;
+    /* background: #F0EEF8; */
     border-radius: 30px;
     height: 140px;
     display: flex;
@@ -81,7 +81,8 @@
     transition: 0.4s ease;
     cursor: pointer;
     height: 40px;
-    width: 40px;
+    width: 100%;
+    border-radius: 20px;
 
 }
 
@@ -618,11 +619,14 @@ td {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 40vh;
+    /* height: 26vh; */
 
   }
   .new_btn{
     background: transparent;
     outline: none;
     border: none;
+  }
+  [data-rk] .ju367v9x{
+    background-color: #0d6efd !important;
   }

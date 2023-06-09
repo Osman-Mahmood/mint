@@ -23,7 +23,7 @@ function App() {
     }
   },[id])
   return (
-    <div className="bg_work">
+    <div className="bg_work bg-dark">
     
     <BrowserRouter>
     <NavbarMenu />

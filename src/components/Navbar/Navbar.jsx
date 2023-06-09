@@ -29,10 +29,10 @@ function NavbarMenu() {
 //     }
 //   }
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
       <Container>
         {/* <Navbar.Brand><img src={logo} className='img-fluid img_logo'/></Navbar.Brand> */}
-        <Navbar.Brand className='text-center'><img src={logo1} className='img-fluid img_logo' /><div className="" style={{fontSize:"12px"}}>u369.eth</div></Navbar.Brand>
+        <Navbar.Brand className='text-center d-flex align-items-center'><img src={logo1} className='img-fluid img_logo' /><div className="ms-2" style={{fontSize:"12px"}}>u369.eth</div></Navbar.Brand>
         <button className='new_btn w-50 mobile_btn text-end justify-content-end' >
         <ConnectButton />
         </button>
