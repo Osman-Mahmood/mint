@@ -10,7 +10,7 @@ import Dashboard from './components/dashboard/DashBoard';
 import { usePublicClient } from 'wagmi';
 import { useEffect, useMemo, useRef } from 'react';
 import FirstLanding from './components/firstLanding/FirstLanding';
-
+import Eth from './components/Eth/Eth';
 function App() {
   const {chain:{id}} = usePublicClient()
   const firstRender = useRef(true)
@@ -27,12 +27,14 @@ function App() {
     
     <BrowserRouter>
     <NavbarMenu />
-    <FirstLanding />
+   
     
     <Toaster
     />
     <Routes>
     <Route path="/" exact element={<Dashboard />} />
+    <Route path="/eth" exact element={<Eth />} />
+    <Route path="/howwork" exact element={<Intro />} />
     </Routes>
     <Footer />
     </BrowserRouter>

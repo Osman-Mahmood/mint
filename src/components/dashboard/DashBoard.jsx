@@ -11,6 +11,7 @@ import factoryAbi from "../../instances/abis/factoryAbi.json";
 import factoryEthAbi from "../../instances/abis/factoryEthAbi.json";
 import Skeleton from "react-loading-skeleton";
 import toast from "react-hot-toast";
+import FirstLanding from "../firstLanding/FirstLanding";
 import {
   useAccount,
   useBalance,
@@ -213,6 +214,8 @@ const Dashboard = () => {
     getWinnerTime();
   }, []);
   return (
+    <>
+    <FirstLanding />
     <div className="container-fluid  text-white dashboard">
       <div className="">
         <div className="row ">
@@ -418,6 +421,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

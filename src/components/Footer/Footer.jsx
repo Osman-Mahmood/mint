@@ -6,7 +6,7 @@ const Footer = () => {
      <footer class="section bg-footer_img">
         <div class="container">
             <div class="row pt-3">
-                <div class="col-lg-3">
+                <div class="col-lg-3 mt-3">
                     <div class="">
                         <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6>
                         {/* <ul class="list-unstyled footer-link mt-4">
@@ -18,7 +18,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-3 mt-3">
                     <div class="">
                         <h6 class=" text-white"></h6>
                         {/* <ul class="list-unstyled footer-link mt-5">
@@ -30,7 +30,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div class="col-lg-2">
+                <div class="col-lg-2 mt-3">
                     {/* <div class="">
                         <h6 class="footer-heading text-uppercase text-white">Help</h6>
                         <ul class="list-unstyled footer-link mt-4">
@@ -42,7 +42,7 @@ const Footer = () => {
                     </div> */}
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-4 mt-3">
                     <div class="">
                         <h6 class="footer-heading text-uppercase text-white">Get In Touch</h6>
                         <p class="contact-info mt-4">Contact us if need help with anything</p>
@@ -61,7 +61,7 @@ const Footer = () => {
             </div>
         </div>
 
-        <div class="text-center mt-5">
+        <div class="text-center">
             <p class="footer-alt pb-3 mb-0 f-14">2023 © Copyright, All Rights Reserved</p>
         </div>
     </footer>

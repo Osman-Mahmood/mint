@@ -185,12 +185,13 @@
 }
 
 .bg-footer_img {
-    background-image: url('../assets/footer_bg1.jpg');
+    background-image: url('../assets/image.png');
     width: 100%;
     /* position: absolute;
     bottom: 0px; */
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center;
+    background-size: contain;
 }
 
 
@@ -629,4 +630,7 @@ td {
   }
   [data-rk] .ju367v9x{
     background-color: #0d6efd !important;
+  }
+  .navbar-nav a:hover{
+    color: #0d6efd !important;
   }
