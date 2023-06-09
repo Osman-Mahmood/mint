@@ -16,13 +16,13 @@ const Eth = () => {
                 <p className='text-dark'> born with the purpose and determination of enhancing the digital asset industry.</p>
                 </div>
                 </div>
-                <div className='col-lg-4'>
+                <div className='col-lg-4 mt-3 mt-lg-0'>
                 <div className='box_2'>
                     <h5>A self-organizing distributed system</h5>
                 <p className='text-dark'> using 40% of the smart contract's revenue to fund Public Goods</p>
                 </div>
                 </div>
-                <div className='col-lg-4'>
+                <div className='col-lg-4  mt-3 mt-lg-0'>
                 <div className='box_2'>
                     <h5>A self-sustained ecosystem</h5>
                 <p className='text-dark'> using 30% of the smart contract's revenue to reward its end-users.</p>
