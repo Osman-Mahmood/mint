@@ -634,3 +634,17 @@ td {
   .navbar-nav a:hover{
     color: #0d6efd !important;
   }
+  .box_2{
+    backdrop-filter: blur(3.1px);
+    -webkit-backdrop-filter: blur(3.1px);
+    /* background: rgba(31,20,77,.2); */
+    background-color: white;
+    border: 1px solid rgba(105,67,255,.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0,0,0,.3);
+    /* width: 24%; */
+    padding: 20px;
+  }
+  .box_2 h5{
+    color: #5cfff3;
+  }
