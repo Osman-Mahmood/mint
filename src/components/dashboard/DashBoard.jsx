@@ -104,6 +104,9 @@ const Dashboard = () => {
     if (isConnected) {
       getBal();
       nativeUBal();
+      window.ethereum.on('accountsChanged', function (accounts) {
+        window.location.reload(true)
+      })
     }
   }, [isConnected, chain, isReferesh]);
 

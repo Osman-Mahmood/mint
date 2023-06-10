@@ -2,8 +2,9 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div>
-     <footer class="section bg-footer_img">
+    <div className='bg-footer_img'>
+ <div className='container-fluid'>
+     <footer class="section ">
         <div class="container">
             <div class="row pt-3">
                 <div class="col-lg-3 mt-3">
@@ -66,6 +67,8 @@ const Footer = () => {
         </div>
     </footer>
     </div>
+    </div>
+   
   )
 }
 
