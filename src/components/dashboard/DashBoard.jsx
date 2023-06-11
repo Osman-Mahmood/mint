@@ -212,8 +212,46 @@ const Dashboard = () => {
       );
     }
   };
-
+  const rewardHistory = async() => {
+    try {
+      let contract = null;
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let signer = provider.getSigner();
+      if (chainId == 5) {
+        contract = new Contract(factoryEthAddresss, factoryAbi, signer);
+      } else if (chainId == 80001) {
+        contract = new Contract(factoryAddress, factoryAbi, signer);
+      }
+      const pendingPeriodsForReward = await contract.pendingPeriodsForReward();
+      if(pendingPeriodsForReward.length == 0){
+        console.log("rewardHistory", " no reward yet");
+      }
+      else {
+        const rewardEth = await contract.rewardHistoryForEth();
+        console.log('pendingEth', ethers.utils.formatEther(rewardEth));
+        const _pendingPeriods = await pendingPeriodsForReward.map((period, index) => {
+          return period.toNumber();
+        })
+        let obj = {};
+        let arr = [];
+        _pendingPeriods.forEach(async(_period) => {
+          let pending = await contract.rewardHistoryForTokensForPeriod(_period);
+          pending.forEach((_pending, index) => {
+            console.log('pending', _pending);
+            console.log('pending1', pending[index].token);
+            console.log('pending2', ethers.utils.formatEther(pending[index].amount));
+          })
+        })
+      }
+    } catch (error) {
+      console.error(
+        "error while withdraw reward",
+        JSON.parse(JSON.stringify(error))
+      );
+    }
+  } 
   useEffect(() => {
+    rewardHistory()
     getWinnerTime();
   }, []);
   return (
@@ -236,7 +274,7 @@ const Dashboard = () => {
           <div className="col-lg-6 col-sm-12">
             <div className="new_box_2 shadow p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between">
               <div className="time d-lg-block d-flex gap-lg-0 gap-5">
-                <h6 className="text-dark text-start">Remaning Time</h6>
+                <h6 className="text-dark text-start">Remaining Time</h6>
                 {winnerLimitTime == null ? (
                   <Skeleton />
                 ) : (
