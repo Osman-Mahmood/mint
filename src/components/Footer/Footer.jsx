@@ -10,6 +10,7 @@ const Footer = () => {
                 <div class="col-lg-3 mt-3">
                     <div class="">
                         <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6>
+                        <p className='text-white'>Ascribing meaningful safety to the digital-assets-ecosystem.</p>
                         {/* <ul class="list-unstyled footer-link mt-4">
                             <li><a href="">Women</a></li>
                             <li><a href="">Men</a></li>
