@@ -10,6 +10,8 @@ import ClaimModal from "./ClaimModal";
 import factoryAbi from "../../instances/abis/factoryAbi.json";
 import factoryEthAbi from "../../instances/abis/factoryEthAbi.json";
 import Skeleton from "react-loading-skeleton";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 import toast from "react-hot-toast";
 import FirstLanding from "../firstLanding/FirstLanding";
 import {
@@ -25,6 +27,7 @@ import TokenBalance from "./renders/TokenBalance";
 import UTokenBalance from "./renders/UTokenBalance";
 import Countdown from "react-countdown";
 import { GiPodiumWinner } from "react-icons/gi";
+import AddTokenInWallet from "./renders/AddToWallet";
 const Dashboard = () => {
   let { isReferesh } = useSelector((state) => state.connect);
   const { chain } = useNetwork();
@@ -52,6 +55,7 @@ const Dashboard = () => {
     }
   };
   const [uNativeBal, setUNativeBal] = useState(null);
+  const [ethAddress, setEthAddress]=useState(null)
   const nativeUBal = async () => {
     try {
       if (chainId == 5 || chainId == 80001) {
@@ -64,6 +68,7 @@ const Dashboard = () => {
           contract = new Contract(factoryAddress, factoryAbi, signer);
         }
         let u_eth_address = await contract.deployedAddressOfEth();
+        setEthAddress(u_eth_address)
         const new_instance = new Contract(u_eth_address, erc20ABI, signer);
         const u_eth_bal = await new_instance.balanceOf(address);
         setUNativeBal(ethers.utils.formatEther(u_eth_bal));
@@ -104,9 +109,9 @@ const Dashboard = () => {
     if (isConnected) {
       getBal();
       nativeUBal();
-      window.ethereum.on('accountsChanged', function (accounts) {
-        window.location.reload(true)
-      })
+      window.ethereum.on("accountsChanged", function (accounts) {
+        window.location.reload(true);
+      });
     }
   }, [isConnected, chain, isReferesh]);
 
@@ -129,6 +134,69 @@ const Dashboard = () => {
         "error while withdraw reward",
         JSON.parse(JSON.stringify(error))
       );
+    }
+  };
+  const [rewarArray, setRewardArray] = useState([]);
+  const rewardHistory = async () => {
+    try {
+      let contract = null;
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let signer = provider.getSigner();
+      if (chainId == 5) {
+        contract = new Contract(factoryEthAddresss, factoryAbi, signer);
+      } else if (chainId == 80001) {
+        contract = new Contract(factoryAddress, factoryAbi, signer);
+      }
+      const pendingPeriodsForReward = await contract.pendingPeriodsForReward();
+      if (pendingPeriodsForReward.length == 0) {
+        setRewardArray([]);
+        return;
+      } else {
+        let previousArr = [];
+        const rewardEth = await contract.rewardHistoryForEth();
+
+        if (ethers.utils.formatEther(rewardEth) > 0) {
+          let obj = {};
+          obj.symbol = chainId == 5 ? "ETH" : "MATIC";
+          obj.token = "";
+          obj.amount = ethers.utils.formatEther(rewardEth);
+          previousArr.push(obj);
+        }
+        for (let index = 0; index < pendingPeriodsForReward.length; index++) {
+          let pending = await contract.rewardHistoryForTokensForPeriod(
+            pendingPeriodsForReward[index].toNumber()
+          );
+          for (let i = 0; i < pending.length; i++) {
+            let { token, amount } = pending[i];
+            let tokenContract = new Contract(token, erc20ABI, signer);
+            let obj = {};
+            if (previousArr.length == 0) {
+              obj.symbol = await tokenContract.symbol();
+              obj.token = token;
+              obj.amount = Number(ethers.utils.formatEther(amount));
+              previousArr.push(obj);
+            } else {
+              const found = previousArr.find(
+                (item, index) => item.token == token
+              );
+              if (found == undefined) {
+                obj.symbol = await tokenContract.symbol();
+                obj.token = token;
+                obj.amount = Number(ethers.utils.formatEther(amount));
+                previousArr.push(obj);
+              } else {
+                let foundIndex = previousArr.indexOf(found);
+                previousArr[foundIndex].amount =
+                  Number(ethers.utils.formatEther(amount)) +
+                  previousArr[foundIndex].amount;
+              }
+            }
+          }
+        }
+        setRewardArray(previousArr);
+      }
+    } catch (error) {
+      console.error("error while withdraw reward", error);
     }
   };
 
@@ -162,6 +230,7 @@ const Dashboard = () => {
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
       getWinnerTime();
+      rewardHistory();
     } else {
       return (
         <div className="new_box p-3 d-flex rounded justify-content-around">
@@ -212,256 +281,271 @@ const Dashboard = () => {
       );
     }
   };
-  const rewardHistory = async() => {
-    try {
-      let contract = null;
-      let provider = new ethers.providers.Web3Provider(window.ethereum);
-      let signer = provider.getSigner();
-      if (chainId == 5) {
-        contract = new Contract(factoryEthAddresss, factoryAbi, signer);
-      } else if (chainId == 80001) {
-        contract = new Contract(factoryAddress, factoryAbi, signer);
-      }
-      const pendingPeriodsForReward = await contract.pendingPeriodsForReward();
-      if(pendingPeriodsForReward.length == 0){
-        console.log("rewardHistory", " no reward yet");
-      }
-      else {
-        const rewardEth = await contract.rewardHistoryForEth();
-        console.log('pendingEth', ethers.utils.formatEther(rewardEth));
-        const _pendingPeriods = await pendingPeriodsForReward.map((period, index) => {
-          return period.toNumber();
-        })
-        let obj = {};
-        let arr = [];
-        _pendingPeriods.forEach(async(_period) => {
-          let pending = await contract.rewardHistoryForTokensForPeriod(_period);
-          pending.forEach((_pending, index) => {
-            console.log('pending', _pending);
-            console.log('pending1', pending[index].token);
-            console.log('pending2', ethers.utils.formatEther(pending[index].amount));
-          })
-        })
-      }
-    } catch (error) {
-      console.error(
-        "error while withdraw reward",
-        JSON.parse(JSON.stringify(error))
-      );
-    }
-  } 
   useEffect(() => {
-    rewardHistory()
+    rewardHistory();
     getWinnerTime();
   }, []);
   return (
     <>
-    <FirstLanding />
-    <div className="container-fluid  text-white dashboard">
-      <div className="">
+      <FirstLanding />
+      <div className="container-fluid  text-white dashboard">
+        <div className="">
+          <ReactTooltip
+            anchorId="app-title"
+            place="bottom"
+            content={
+              <table>
+                <thead>
+                  <tr>
+                    <th>Token</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                {rewarArray.map((item) => {
+                  return (
+                    <tbody>
+                      <tr>
+                        <th>{item.symbol}</th>
+                        <th>{item.amount}</th>
+                      </tr>
+                    </tbody>
+                  );
+                })}
+              </table>
+            }
+          />
+          ;
+          <div className="row ">
+            <div className="col-lg-6 col-sm-12 ">
+              {winnerTime == null ? (
+                // <Skeleton  />
+                <div className="new_box shadow  d-flex rounded justify-content-around p-5"></div>
+              ) : (
+                <Countdown
+                  date={Date.now() + (parseInt(winnerTime) * 1000 - Date.now())}
+                  renderer={renderer}
+                />
+              )}
+            </div>
+            <div className="col-lg-6 col-sm-12">
+              <div className="new_box_2 shadow p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between">
+                <div className="time d-lg-block d-flex gap-lg-0 gap-5">
+                  <h6 className="text-dark text-start">Remaining Time</h6>
+                  {winnerLimitTime == null ? (
+                    <Skeleton />
+                  ) : (
+                    <Countdown
+                      date={
+                        Date.now() +
+                        (parseInt(winnerLimitTime) * 1000 - Date.now())
+                      }
+                      renderer={withDrawLimitRender}
+                    />
+                  )}
+                </div>
+                <div className="d-lg-block d-flex gap-lg-0 gap-5">
+                  <h6 className="text-dark">
+                    Winner gets the
+                    <span
+                      style={{ cursor: "pointer" }}
+                      className="text-primary fw-bold"
+                      id="app-title"
+                    >
+                      Tokens
+                    </span>{" "}
+                    to be awarded
+                  </h6>
+                  <p
+                    className="text-dark mt-2 "
+                    style={{ overflowWrap: "anywhere" }}
+                  >
+                    {winnerAddress == null ? <Skeleton /> : winnerAddress}
+                  </p>
+                </div>
+                <div>
+                  {winnerAddress != null ? (
+                    <button
+                      className="btn btn-primary btn_height"
+                      disabled={winnerAddress != address}
+                      onClick={withDrawReward}
+                    >
+                      Claim
+                    </button>
+                  ) : (
+                    <Skeleton />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="row ">
-          <div className="col-lg-6 col-sm-12 ">
-            {winnerTime == null ? (
-              // <Skeleton  />
-              <div className="new_box shadow  d-flex rounded justify-content-around p-5"></div>
-            ) : (
-              <Countdown
-                date={Date.now() + (parseInt(winnerTime) * 1000 - Date.now())}
-                renderer={renderer}
-              />
-            )}
+          <div className="col-lg-6 col-sm-12">
+            <div className="box shadow">
+              <div className="box_content p-3">
+                <h5 className="text-center fw-bold">uTokens</h5>
+
+                <Table borderless>
+                  <thead>
+                    <tr className="">
+                      <th className="text-center">U-Assets</th>
+                      <th className="text-center">U-Wallet Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="text-center">
+                        {isConnected ? (
+                          `U-${chain.nativeCurrency.symbol}`
+                        ) : (
+                          <Skeleton />
+                        )}
+                      </td>
+                      <td className="text-center">
+                        {uNativeBal ? Number(uNativeBal) : <Skeleton />}
+                      </td>
+                      <td>
+                        <AddTokenInWallet address={ethAddress} />
+                        {/* <Button variant="primary" className="p-0">Add to Wallet</Button> */}
+                      </td>
+                      <td>
+                        {" "}
+                        {isConnected && (
+                          <ClaimModal
+                            symbol={chain?.nativeCurrency.symbol}
+                            claimType="native"
+                          />
+                        )}{" "}
+                      </td>
+                      <td>
+                        {isConnected && (
+                          <TransferModal
+                            symbol={chain?.nativeCurrency.symbol}
+                            transferType="native"
+                          />
+                        )}
+                      </td>
+                    </tr>
+
+                    {tokensList?.map((item) => {
+                      return (
+                        <tr>
+                          <td className="text-center">U-{item.label}</td>
+                          <td className="text-center">
+                            {isConnected ? (
+                              <UTokenBalance alternateAddress={item.address} />
+                            ) : (
+                              <Skeleton />
+                            )}
+                          </td>
+                          <td>
+                          <AddTokenInWallet address={item.address} />
+                        {/* <Button variant="primary" className="p-0">Add to Wallet</Button> */}
+                      </td>
+                          <td>
+                            {" "}
+                            <ClaimModal
+                              symbol={item.label}
+                              tokenAddress={item.address}
+                              claimType="token"
+                            />
+                          </td>
+                          <td>
+                            <TransferModal
+                              symbol={item.label}
+                              tokenAddress={item.address}
+                              transferType="token"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </div>
+            </div>
           </div>
           <div className="col-lg-6 col-sm-12">
-            <div className="new_box_2 shadow p-3 d-lg-flex d-sm-block pt-4 rounded justify-content-between">
-              <div className="time d-lg-block d-flex gap-lg-0 gap-5">
-                <h6 className="text-dark text-start">Remaining Time</h6>
-                {winnerLimitTime == null ? (
-                  <Skeleton />
-                ) : (
-                  <Countdown
-                    date={
-                      Date.now() +
-                      (parseInt(winnerLimitTime) * 1000 - Date.now())
-                    }
-                    renderer={withDrawLimitRender}
-                  />
-                )}
-              </div>
-              <div className="d-lg-block d-flex gap-lg-0 gap-5">
-                <h6 className="text-dark">Winner gets the amount to be awarded</h6>
-                <p className="text-dark mt-2 " style={{overflowWrap:"anywhere"}}>
-                  {winnerAddress == null ? <Skeleton /> : winnerAddress}
-                </p>
-              </div>
-              <div>
-                {winnerAddress != null ? (
-                  <button
-                    className="btn btn-primary btn_height"
-                    disabled={winnerAddress != address}
-                    onClick={withDrawReward}
-                  >
-                    Claim
-                  </button>
-                ) : (
-                  <Skeleton />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="row ">
-        <div className="col-lg-6 col-sm-12">
-          <div className="box shadow">
-            <div className="box_content p-3">
-              <h5 className="text-center fw-bold">uTokens</h5>
-
-              <Table borderless>
-                <thead>
-                  <tr className="">
-                    <th className="text-center">U-Assets</th>
-                    <th className="text-center">U-Wallet Balance</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="text-center">
-                      {isConnected ? (
-                        `U-${chain.nativeCurrency.symbol}`
-                      ) : (
-                        <Skeleton />
-                      )}
-                    </td>
-                    <td className="text-center">
-                      {uNativeBal ? Number(uNativeBal) : <Skeleton />}
-                    </td>
-
-                    <td>
-                      {" "}
-                      {isConnected && (
-                        <ClaimModal
-                          symbol={chain?.nativeCurrency.symbol}
-                          claimType="native"
-                        />
-                      )}{" "}
-                    </td>
-                    <td>
-                      {isConnected && (
-                        <TransferModal
-                          symbol={chain?.nativeCurrency.symbol}
-                          transferType="native"
-                        />
-                      )}
-                    </td>
-                  </tr>
-
-                  {tokensList?.map((item) => {
-                    return (
-                      <tr>
-                        <td className="text-center">U-{item.label}</td>
-                        <td className="text-center">
-                          {isConnected ? (
-                            <UTokenBalance alternateAddress={item.address} />
-                          ) : (
-                            <Skeleton />
-                          )}
-                        </td>
-                        <td>
-                          {" "}
-                          <ClaimModal
-                            symbol={item.label}
-                            tokenAddress={item.address}
-                            claimType="token"
+            <div className="box shadow">
+              <div className="box_content p-3">
+                <h5 className="text-center fw-bold">Can be uTokens</h5>
+                <Table borderless>
+                  <thead>
+                    <tr>
+                      <th className="text-center">Tokens</th>
+                      <th className="text-center">Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="text-center">
+                        {isConnected ? (
+                          chain.nativeCurrency.symbol
+                        ) : (
+                          <Skeleton />
+                        )}
+                      </td>
+                      <td className="text-center">
+                        {nativeBal ? (
+                          Number(nativeBal).toFixed(6)
+                        ) : (
+                          <Skeleton />
+                        )}
+                      </td>
+                      <td>
+                        {" "}
+                        {isConnected && (
+                          <MintModal
+                            symbol={chain.nativeCurrency.symbol}
+                            mintType="native"
                           />
-                        </td>
-                        <td>
-                          <TransferModal
-                            symbol={item.label}
-                            tokenAddress={item.address}
-                            transferType="token"
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-6 col-sm-12">
-          <div className="box shadow">
-            <div className="box_content p-3">
-              <h5 className="text-center fw-bold">Can be uTokens</h5>
-              <Table borderless>
-                <thead>
-                  <tr>
-                    <th className="text-center">Tokens</th>
-                    <th className="text-center">Balance</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="text-center">
-                      {isConnected ? chain.nativeCurrency.symbol : <Skeleton />}
-                    </td>
-                    <td className="text-center">
-                      {nativeBal ? Number(nativeBal).toFixed(6) : <Skeleton />}
-                    </td>
-                    <td>
-                      {" "}
-                      {isConnected && (
-                        <MintModal
-                          symbol={chain.nativeCurrency.symbol}
-                          mintType="native"
-                        />
-                      )}
-                    </td>
-                    <td>
-                      {/* <Button variant="primary" >
+                        )}
+                      </td>
+                      <td>
+                        {/* <Button variant="primary" >
                                             Detail
                                         </Button> */}
-                    </td>
-                  </tr>
-                  {tokensList?.map((item) => {
-                    return (
-                      <tr>
-                        <td className="text-center">{item.label}</td>
-                        <td className="text-center">
-                          {isConnected ? (
-                            <TokenBalance
+                      </td>
+                    </tr>
+                    {tokensList?.map((item) => {
+                      return (
+                        <tr>
+                          <td className="text-center">{item.label}</td>
+                          <td className="text-center">
+                            {isConnected ? (
+                              <TokenBalance
+                                alternateAddress={item.alternateAddress}
+                              />
+                            ) : (
+                              <Skeleton />
+                            )}
+                          </td>
+                          <td className="text-center">
+                            {" "}
+                            <MintModal
+                              symbol={item.label}
+                              mintType="token"
+                              tokenAddress={item.address}
                               alternateAddress={item.alternateAddress}
+                              variant="primary"
                             />
-                          ) : (
-                            <Skeleton />
-                          )}
-                        </td>
-                        <td className="text-center">
-                          {" "}
-                          <MintModal
-                            symbol={item.label}
-                            mintType="token"
-                            tokenAddress={item.address}
-                            alternateAddress={item.alternateAddress}
-                            variant="primary"
-                          />
-                        </td>
-                        <td>
-                          {/* <Button variant="primary" >
+                          </td>
+                          <td>
+                            {/* <Button variant="primary" >
                                                     Detail
                                                 </Button> */}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
