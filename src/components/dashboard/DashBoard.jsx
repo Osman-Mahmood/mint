@@ -22,6 +22,7 @@ import {
   useChainId,
   useNetwork,
 } from "wagmi";
+import logo1 from '../../assets/logo1.png'
 import { factoryAddress, factoryEthAddresss } from "../../instances/addresses";
 import TokenBalance from "./renders/TokenBalance";
 import UTokenBalance from "./renders/UTokenBalance";
@@ -235,7 +236,7 @@ const Dashboard = () => {
       return (
         <div className="new_box p-3 d-flex rounded justify-content-around">
           <span className="text-dark ms-2 ">
-            <h4>Every 369 hours a winner is randomly selected.</h4>
+            <h4 className="fw">Every 369 hours a winner is randomly selected.</h4>
           </span>
           <div className="d-block text-center ">
             <h5>{days}</h5>
@@ -365,7 +366,7 @@ const Dashboard = () => {
                 <div>
                   {winnerAddress != null ? (
                     <button
-                      className="btn btn-primary btn_height"
+                      className="btn claim"
                       disabled={winnerAddress != address}
                       onClick={withDrawReward}
                     >
@@ -395,12 +396,15 @@ const Dashboard = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="text-center">
+                      <td className="text-center align-items-center d-flex">
+                        <img src={logo1} alt=""  className="img-fluid img_height me-1"/>
+                        <div className="mt-1">
                         {isConnected ? (
-                          `U-${chain.nativeCurrency.symbol}`
+                          `u${chain.nativeCurrency.symbol}`
                         ) : (
                           <Skeleton />
                         )}
+                        </div>
                       </td>
                       <td className="text-center">
                         {uNativeBal ? Number(uNativeBal) : <Skeleton />}
@@ -431,7 +435,11 @@ const Dashboard = () => {
                     {tokensList?.map((item) => {
                       return (
                         <tr>
-                          <td className="text-center">U-{item.label}</td>
+                          <div className="d-flex">
+                          <img src={logo1} alt=""  className="img-fluid img_height me-1"/>
+                          <td className="text-center">u{item.label}</td>
+                          </div>
+                        
                           <td className="text-center">
                             {isConnected ? (
                               <UTokenBalance alternateAddress={item.address} />
@@ -469,7 +477,7 @@ const Dashboard = () => {
           <div className="col-lg-6 col-sm-12">
             <div className="box shadow">
               <div className="box_content p-3">
-                <h5 className="text-center fw-bold">Can be uTokens</h5>
+                <h5 className="text-center fw-bold">Switch to uTolens</h5>
                 <Table borderless>
                   <thead>
                     <tr>
@@ -480,6 +488,7 @@ const Dashboard = () => {
                   <tbody>
                     <tr>
                       <td className="text-center">
+                      <img src={logo1} alt=""  className="img-fluid img_height me-1"/>
                         {isConnected ? (
                           chain.nativeCurrency.symbol
                         ) : (
@@ -495,6 +504,7 @@ const Dashboard = () => {
                       </td>
                       <td>
                         {" "}
+                        
                         {isConnected && (
                           <MintModal
                             symbol={chain.nativeCurrency.symbol}
@@ -511,7 +521,11 @@ const Dashboard = () => {
                     {tokensList?.map((item) => {
                       return (
                         <tr>
+                          <div className="d-flex text-center justify-content-center align-items-center">
+                          <img src={logo1} alt=""  className="img-fluid img_height me-1"/>
                           <td className="text-center">{item.label}</td>
+                          </div>
+                          
                           <td className="text-center">
                             {isConnected ? (
                               <TokenBalance

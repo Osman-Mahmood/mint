@@ -134,10 +134,10 @@ export default function PasswordModal({ show, handleClose }) {
                 <ul>
                   <li>
                     The above is your encrypted and randomly-generated Master
-                    key. It s only presented once.
+                    key. It's only presented once.
                   </li>
                   <li>
-                    Before setting your password, copy and save the Master Key
+                   Before setting your password below, copy and save the Master Key
                     in a safe place. Only with the Master Key you can reset or
                     change your password.{" "}
                   </li>
@@ -149,10 +149,13 @@ export default function PasswordModal({ show, handleClose }) {
                   </li>
                 </ul>
               </Form.Text>
+              <div className="d-flex">
               <input type="checkbox" onChange={(e)=>{setIsEnable(e.target.checked);}} />
-              <label htmlFor="" className="ms-3">
-                I acknowledge
+              <label htmlFor="" className="ms-3 mt-3">
+              I understand that u369.eth cannot recover this password for me. Learn more
               </label>
+              </div>
+            
             </Form.Group>
 { isEnable && <>
             <Form.Group className="mb-3" controlId="formBasicPassword">

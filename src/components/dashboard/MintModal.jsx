@@ -13,7 +13,7 @@ function MintModal({symbol, tokenAddress, mintType, alternateAddress}) {
     return (
         <>
             <Button variant="primary" onClick={handleShow} disabled={!isConnected}>
-                Deposit 
+            Protect 
             </Button>
 
             <Modal show={show} onHide={handleClose} centered>

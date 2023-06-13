@@ -208,7 +208,7 @@
 
 .active {
     /* border-bottom: 2px solid linear-gradient(248.86deg, #B6509E 10.51%, #2EBAC6 93.41%) !important; */
-    border-bottom: 2px solid #B6509E;
+    /* border-bottom: 2px solid blue; */
     /* margin-top: 10px; */
     /* padding: 10px; */
 }
@@ -649,3 +649,39 @@ td {
   .box_2 h5{
     color: #5cfff3;
   }
+  .fw{
+    font-weight: 600;
+  }
+  .claim{
+    background-color: #0d6efd !important;
+    color: white;
+  }
+  .btn.disabled, .btn:disabled, fieldset:disabled .btn{
+    opacity: 1 !important;
+  }
+  .img_height{
+    width: 20px;
+  height: 20px;  
+}
+.accordion-bg,
+.accordion-button {
+  background: transparent !important;
+  color: #fff !important;
+}
+.accordion-button{
+    color: #fff !important;
+    border: #fff 1px solid !important;
+}
+.accordion-button.collapsed:after {
+    background-image: none;
+    color: #0d6efd;
+    content: "\2713";
+    font-family: Font Awesome\ 5 Free;
+    font-weight: 400;
+}
+.accordion-button:not(.collapsed):after {
+    background-image: none;
+    color: red;
+    content: "\2716";
+    font-family: Font Awesome\ 5 Free;
+}

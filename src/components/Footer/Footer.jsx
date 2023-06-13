@@ -9,8 +9,8 @@ const Footer = () => {
             <div class="row pt-3">
                 <div class="col-lg-3 mt-3">
                     <div class="">
-                        <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6>
-                        <p className='text-white'>Ascribing meaningful safety to the digital-assets-ecosystem.</p>
+                        {/* <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6> */}
+                        <h6 className='footer-heading text-uppercase text-center text-white'>Ascribing meaningful safety to the digital-assets-ecosystem.</h6>
                         {/* <ul class="list-unstyled footer-link mt-4">
                             <li><a href="">Women</a></li>
                             <li><a href="">Men</a></li>
@@ -51,10 +51,10 @@ const Footer = () => {
                         <p class="contact-info">+01 123-456-7890</p>
                         <div class="mt-5">
                             <ul class="list-inline">
-                                <li class="list-inline-item"><a href="#"><i class="fab facebook footer-social-icon fa-facebook-f"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fab twitter footer-social-icon fa-twitter"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fab google footer-social-icon fa-google"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fab apple footer-social-icon fa-apple"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-telegram fs-4"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fa-regular fa-envelope fs-4 ms-3"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-twitter fs-4 ms-3"></i></a></li>
+                                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-github fs-4 ms-3"></i></a></li>
                             </ul>
                         </div>
                     </div>
