@@ -1,7 +1,7 @@
 import React, { useState, useEffect, CSSProperties } from "react";
 import { useAccount, erc20ABI, useChainId } from "wagmi";
 import { Contract, ethers } from "ethers";
-import ScaleLoader from "react-spinners/ScaleLoader";
+import BeatLoader from "react-spinners/BeatLoader";
 import factoryAbi from "../../instances/abis/factoryAbi.json";
 import factoryEthAbi from "../../instances/abis/factoryEthAbi.json";
 import { factoryAddress, factoryEthAddresss } from "../../instances/addresses";
@@ -14,7 +14,7 @@ import { rpc } from "../../utils";
 import PasswordModal from "../passwordModal/PasswordModal";
 import { refreshBalance } from "../../store/wallet/wallet";
 import RecoverPasswordModal from "../passwordModal/RecoverPasswordModal";
-import image from '../../assets/image.png'
+import image from '../../assets/top.jpg'
 const rpcUrl = new Web3(rpc);
 
 const Mint = ({ mintType, tokenAddress, onHide, alternateAddress }) => {
@@ -137,34 +137,39 @@ const Mint = ({ mintType, tokenAddress, onHide, alternateAddress }) => {
     } catch (error) {
       setIsLoading(false);
       const errorData = JSON.parse(JSON.stringify(error));
-      if (errorData && chainId == 5) {
+      if(errorData.message){
+        toast.error(errorData.message);
+        return
+      }
+      if (errorData.error.message && chainId == 5) {
         toast.error(errorData.error.message);
-      } else if (errorData && chainId == 80001) {
+      } else if (errorData.error.message && chainId == 80001) {
         toast.error(errorData.data.message);
       }
       console.error("error while calim u tokens", errorData);
     }
   };
 
-  const checkPassword = async () => {
-    try {
-      let contract = null;
-      if (chainId == 5) {
-        contract = new Contract(factoryEthAddresss, factoryEthAbi, ETHProvider);
-      } else if (chainId == 80001) {
-        contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
-      }
-      let isPass = await contract.isPasswordSet(address);
-      if (!isPass) {
-        handleShow();
-      }
-    } catch (error) {}
-  };
-  useEffect(() => {
-    if ((isConnected && chainId == 5) || chainId == 80001) {
-      checkPassword();
-    }
-  }, [isConnected]);
+  // const checkPassword = async () => {
+  //   try {
+  //     let contract = null;
+  //     if (chainId == 5) {
+  //       contract = new Contract(factoryEthAddresss, factoryEthAbi, ETHProvider);
+  //     } else if (chainId == 80001) {
+  //       contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
+  //     }
+  //     let isPass = await contract.isPasswordSet(address);
+  //     if (!isPass) {
+  //       handleShow();
+  //       onHide();
+  //     }
+  //   } catch (error) {}
+  // };
+  // useEffect(() => {
+  //   if ((isConnected && chainId == 5) || chainId == 80001) {
+  //     checkPassword();
+  //   }
+  // }, [isConnected]);
 
   const setMax = async () => {
     try {
@@ -199,7 +204,7 @@ const Mint = ({ mintType, tokenAddress, onHide, alternateAddress }) => {
   return (
     <div className="container-fluid p-0">
       <div className="">
-        <PasswordModal show={show} handleClose={handleClose} />
+        
         <RecoverPasswordModal show={show1} handleClose={handleClose1} />
         <div className="row  align-items-center">
           <div className="col-lg-12 align-items-center ">
@@ -265,7 +270,7 @@ const Mint = ({ mintType, tokenAddress, onHide, alternateAddress }) => {
                     disabled={!isConnected}
                     onClick={() => mintU_tokens()}
                   >
-                    {isLoading ? <ScaleLoader color="#36d7b7" /> : "Protect"}
+                    {isLoading ? <BeatLoader color="#fff" /> : "Protect"}
                   </button>
                 </div>
               </div>

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { IoWarningOutline } from "react-icons/io5"
-import { FiCopy } from "react-icons/fi"
+import BeatLoader from "react-spinners/BeatLoader";
 import { factoryAddress, factoryEthAddresss } from "../../instances/addresses"
 import factoryAbi from "../../instances/abis/factoryAbi.json";
 import { useSelector } from 'react-redux';
@@ -25,6 +24,7 @@ export default function RecoverPasswordModal({ show, handleClose }) {
     })
     const [isShowMessage, setIsShowMessage] = useState(false)
     const [message, setIsMessage] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
     const checkPhrase = async (value) => {
         try {
             if (chainId == 5 || chainId == 80001) {
@@ -77,31 +77,42 @@ export default function RecoverPasswordModal({ show, handleClose }) {
         } else if (chainId == 80001) {
           contract = new Contract(factoryAddress, factoryAbi, signer);
         }
-
+        setIsLoading(true)
           let tx = await contract.changePassword(phrase, password);
           await tx.wait()
             handleClose()
+            setIsLoading(false)
             return
         } catch (error) {
+            setIsLoading(false)
             console.error("error while save password", error);
         }
     }
     return (
         <>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Reset Password!</Modal.Title>
+            <Modal show={show} onHide={handleClose}
+             aria-labelledby="contained-modal-title-vcenter"
+             centered
+             backdrop="static"
+             
+            //  style={{backgroundColor:"#000", opacity:"0.9"}}
+             className='recover_modal'
+            >
+                <Modal.Header closeButton 
+                
+                >
+                    <Modal.Title>Reset Password</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body  >
                     {/* <h3>Recover Password</h3> */}
                     <Form>
                         {!isEnable && <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Master Key</Form.Label>
                             
 
-                                <Form.Control type="text"
+                                <Form.Control  type="password"
                                     className='w-100'
-                                    
+                                   
                                     disabled={!isConnected}
                                     onChange={(e)=>checkPhrase(e.target.value)}
                                 />
@@ -116,7 +127,7 @@ export default function RecoverPasswordModal({ show, handleClose }) {
 
                         {isEnable && <><Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>New Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password"
+                            <Form.Control type="password" 
                                 onChange={(e) => {
                                     setPass({ ...pass, password: e.target.value })
                                 }}
@@ -125,7 +136,7 @@ export default function RecoverPasswordModal({ show, handleClose }) {
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control type="password" placeholder="Confirm Password"
+                            <Form.Control type="password"
                                 onChange={(e) => {
                                     setPass({ ...pass, confirmPassword: e.target.value })
                                 }}
@@ -140,7 +151,8 @@ export default function RecoverPasswordModal({ show, handleClose }) {
                 </Modal.Body>
                 {isEnable &&<Modal.Footer>
                     <Button variant="primary" onClick={savePssword}>
-                        Update Password
+                    {isLoading ? <BeatLoader color="#fff" /> : "Update Password"}
+                        
                     </Button>
                     <Button variant="danger" onClick={handleClose}>
                         Close

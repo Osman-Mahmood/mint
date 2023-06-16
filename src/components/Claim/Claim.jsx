@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import ScaleLoader from "react-spinners/ScaleLoader";
+import BeatLoader from "react-spinners/BeatLoader";
 import toast from "react-hot-toast"
 import factoryAbi from "../../instances/abis/factoryAbi.json";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { factoryAddress, factoryEthAddresss } from "../../instances/addresses"
 import tokenAbi from "../../instances/abis/erc20_tokenAbi.json"
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Web3 from 'web3';
 import { rpc } from '../../utils';
 import { useAccount, erc20ABI, useChainId } from 'wagmi';
 import { Contract, ethers } from 'ethers';
 import RecoverPasswordModal from '../passwordModal/RecoverPasswordModal';
-import image from '../../assets/image.png'
+import image from '../../assets/top.jpg'
 import PasswordModal from '../passwordModal/PasswordModal';
+import { refreshBalance } from '../../store/wallet/wallet';
 const rpcUrl = new Web3(rpc)
 const Claim = ({ claimType, tokenAddress, onHide }) => {
+  const dispatch = useDispatch();
+  let { isReferesh } = useSelector((state) => state.connect);
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
-  let [etherAmount, setEtherAmount] = useState(0)
+  let [etherAmount, setEtherAmount] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [pass, setPass] = useState()
   const [show, setShow] = useState(false);
@@ -71,7 +74,7 @@ const Claim = ({ claimType, tokenAddress, onHide }) => {
           onHide()
           setEtherAmount(0)
           setIsLoading(false)
-
+          dispatch(refreshBalance(!isReferesh));
         } else if (claimType == "token") {
 
           setIsLoading(true)
@@ -83,12 +86,17 @@ const Claim = ({ claimType, tokenAddress, onHide }) => {
           onHide()
           setEtherAmount(0)
           setIsLoading(false)
+          dispatch(refreshBalance(!isReferesh));
         }
 
       }
     } catch (error) {
       setIsLoading(false)
       const errorData = JSON.parse(JSON.stringify(error));
+      if(errorData.message){
+        toast.error(errorData.message);
+        return
+      }
       if (errorData && chainId == 5) {
         toast.error(errorData.error.message);
       } else if (errorData && chainId == 80001) {
@@ -170,11 +178,11 @@ const Claim = ({ claimType, tokenAddress, onHide }) => {
 
                   </button>
                 </div>
-                <div className='text-danger text-end mt-1 mb-1' style={{ cursor: "pointer" }} onClick={handleShow1}>Forgot Password</div>
+                <div className='text-primary text-end mt-1 mb-1' style={{ cursor: "pointer" }} onClick={handleShow1}>Forgot Password</div>
                 <button className="btn btn-primary mb-1 mt-1"
                   disabled={!isConnected}
                   onClick={() => claimUTokens()}>{
-                    isLoading ? <ScaleLoader color="#36d7b7" /> : "Claim"
+                    isLoading ? <BeatLoader color="#fff" className='pb-1' /> : "Claim"
                   }</button>
               </div>
 

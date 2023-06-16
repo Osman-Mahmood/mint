@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import BeatLoader from "react-spinners/BeatLoader";
 import {
   useAccount,
   useBalance,
@@ -19,7 +20,8 @@ import factoryAbi from "../../instances/abis/factoryAbi.json";
 import factoryEthAbi from "../../instances/abis/factoryEthAbi.json";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-export default function PasswordModal({ show, handleClose }) {
+import LearnMore from "./LearnMoreModal";
+export default function PasswordModal({ show, handleClose, handleShow }) {
   // const { address, isConnecting, isDisconnected, isConnected } = useAccount();
   const chainId = useChainId();
   const generateRandomString = () => {
@@ -38,6 +40,7 @@ export default function PasswordModal({ show, handleClose }) {
   let [isEnable, setIsEnable] = useState(false);
   const [isSeePass, setIsSeePass] = useState(false);
   const [isSeeCPass, setIsSeeCPass] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const seePass = (e) => {
     e.preventDefault();
     setIsSeePass(!isSeePass);
@@ -87,6 +90,7 @@ export default function PasswordModal({ show, handleClose }) {
         } else if (chainId == 80001) {
           contract = new Contract(factoryAddress, factoryAbi, signer);
         }
+        setIsLoading(true)
         const tx = await contract.setPasswordAndRecoveryNumber(
           password,
           phrase
@@ -94,9 +98,12 @@ export default function PasswordModal({ show, handleClose }) {
         console.log("tx", tx);
         let receipt = await tx.wait();
         handleClose();
+        handleShow();
+        setIsLoading(false)
         return;
       }
     } catch (error) {
+      setIsLoading(false)
       console.error("error while save password", error);
     }
   };
@@ -137,7 +144,7 @@ export default function PasswordModal({ show, handleClose }) {
                     key. It's only presented once.
                   </li>
                   <li>
-                   Before setting your password below, copy and save the Master Key
+                    Before setting your password below, copy and save the Master Key
                     in a safe place. Only with the Master Key you can reset or
                     change your password.{" "}
                   </li>
@@ -150,64 +157,70 @@ export default function PasswordModal({ show, handleClose }) {
                 </ul>
               </Form.Text>
               <div className="d-flex">
-              <input type="checkbox" onChange={(e)=>{setIsEnable(e.target.checked);}} />
-              <label htmlFor="" className="ms-3 mt-3">
-              I understand that u369.eth cannot recover this password for me. Learn more
-              </label>
+                <input type="checkbox" onChange={(e) => { setIsEnable(e.target.checked); }} />
+                <label htmlFor="" className="ms-3 mt-3">
+                  I understand that u369.eth cannot recover this password for me.
+                </label>
               </div>
-            
-            </Form.Group>
-{ isEnable && <>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Set Password</Form.Label>
-              <div className="d-flex">
-                <Form.Control
-                  className="w-75"
-                  type={isSeePass ? "text" : "password"}
-                  placeholder=""
-                  onChange={(e) => {
-                    setPass({ ...pass, password: e.target.value });
-                  }}
-                />
-                <button
-                  className="w-25 btn btn-light border rounded ms-1"
-                  onClick={(e) => seePass(e)}
-                >
-                  {isSeePass ? <AiFillEyeInvisible /> : <AiFillEye />}
-                </button>
-              </div>
-            </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Confirm Password</Form.Label>
-              <div className="d-flex">
-                <Form.Control
-                  type={isSeeCPass ? "text" : "password"}
-                  placeholder=""
-                  className="w-75"
-                  onChange={(e) => {
-                    setPass({ ...pass, confirmPassword: e.target.value });
-                  }}
-                />
 
-                <button
-                  className="w-25 btn btn-light border rounded ms-1"
-                  onClick={(e) => seeCPass(e)}
-                >
-                  {isSeeCPass ? <AiFillEyeInvisible /> : <AiFillEye />}
-                </button>
-              </div>
-              {isShowMessage && (
-                <Form.Text className="text-danger">{message}</Form.Text>
-              )}
+
+              <LearnMore />
+
+
+
             </Form.Group>
+            {isEnable && <>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Set Password</Form.Label>
+                <div className="d-flex">
+                  <Form.Control
+                    className="w-75"
+                    type={isSeePass ? "text" : "password"}
+                    placeholder=""
+                    onChange={(e) => {
+                      setPass({ ...pass, password: e.target.value });
+                    }}
+                  />
+                  <button
+                    className="w-25 btn btn-light border rounded ms-1"
+                    onClick={(e) => seePass(e)}
+                  >
+                    {isSeePass ? <AiFillEyeInvisible /> : <AiFillEye />}
+                  </button>
+                </div>
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <div className="d-flex">
+                  <Form.Control
+                    type={isSeeCPass ? "text" : "password"}
+                    placeholder=""
+                    className="w-75"
+                    onChange={(e) => {
+                      setPass({ ...pass, confirmPassword: e.target.value });
+                    }}
+                  />
+
+                  <button
+                    className="w-25 btn btn-light border rounded ms-1"
+                    onClick={(e) => seeCPass(e)}
+                  >
+                    {isSeeCPass ? <AiFillEyeInvisible /> : <AiFillEye />}
+                  </button>
+                </div>
+                {isShowMessage && (
+                  <Form.Text className="text-danger">{message}</Form.Text>
+                )}
+              </Form.Group>
             </>
             }
           </Form>
         </Modal.Body>
-       {isEnable && <Modal.Footer>
+        {isEnable && <Modal.Footer>
           <Button variant="primary" onClick={savePssword}>
-            Save Password
+            {isLoading ? <BeatLoader color="#fff" /> : "Save Password"}
           </Button>
           <Button variant="danger" onClick={handleClose}>
             Close

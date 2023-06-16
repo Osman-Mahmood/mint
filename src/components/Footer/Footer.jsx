@@ -1,76 +1,62 @@
 import React from 'react'
 
 const Footer = () => {
-  return (
-    <div className='bg-footer_img'>
- <div className='container-fluid'>
-     <footer class="section ">
-        <div class="container">
-            <div class="row pt-3">
-                <div class="col-lg-3 mt-3">
-                    <div class="">
-                        {/* <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6> */}
-                        <h6 className='footer-heading text-uppercase text-center text-white'>Ascribing meaningful safety to the digital-assets-ecosystem.</h6>
-                        {/* <ul class="list-unstyled footer-link mt-4">
-                            <li><a href="">Women</a></li>
-                            <li><a href="">Men</a></li>
-                            <li><a href="">Kids & Youth</a></li>
-                            <li><a href="">Hats</a></li>
-                        </ul> */}
-                    </div>
-                </div>
-
-                <div class="col-lg-3 mt-3">
-                    <div class="">
-                        <h6 class=" text-white"></h6>
-                        {/* <ul class="list-unstyled footer-link mt-5">
-                            <li><a href="">Accessories</a></li>
-                            <li><a href="">Home</a></li>
-                            <li><a href="">LifeStyle</a></li>
-                            <li><a href="">Content Guideline & Policies</a></li>
-                        </ul> */}
-                    </div>
-                </div>
-
-                <div class="col-lg-2 mt-3">
-                    {/* <div class="">
-                        <h6 class="footer-heading text-uppercase text-white">Help</h6>
-                        <ul class="list-unstyled footer-link mt-4">
-                            <li><a href="">Sign Up </a></li>
-                            <li><a href="">Login</a></li>
-                            <li><a href="">Terms of Services</a></li>
-                            <li><a href="">Privacy Policy</a></li>
-                        </ul>
+    return (
+        <div className='bg-footer_img'>
+            <div className='container-fluid'>
+                <footer class="section ">
+                    <div class="container">
+                        <div class="row pt-3 ">
+                            <div className='col-lg-8 row d-flex'>
+                                <div class="col-lg-6 mt-3 text-center">
+                                    {/* <div class="text-center">
+                        
+                        <p className=' text-uppercase  text-white'>Ascribing meaningful safety to the <br />  digital-assets-ecosystem.</p>
+                    
                     </div> */}
-                </div>
+                                </div>
+                                <div class="col-lg-6 mt-3 text-end d-flex align-items-center justify-content-center">
+                                    <div class="text-center">
+                                        {/* <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6> */}
+                                        <p className=' text-uppercase fw-normal fs-5  text-white'>Ascribing meaningful safety to the <br />  digital-assets-ecosystem.</p>
 
-                <div class="col-lg-4 mt-3">
-                    <div class="">
-                        <h6 class="footer-heading text-uppercase text-white">Get In Touch</h6>
-                        <p class="contact-info mt-4">Contact us if need help with anything</p>
-                        <p class="contact-info">+01 123-456-7890</p>
-                        <div class="mt-5">
-                            <ul class="list-inline">
-                                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-telegram fs-4"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fa-regular fa-envelope fs-4 ms-3"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-twitter fs-4 ms-3"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fa-brands fa-github fs-4 ms-3"></i></a></li>
-                            </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-lg-4 mt-3 ">
+                                <div class="d-flex align-items-center justify-content-center flex-column">
+                                    <p class="contact-info fw-bold" style={{fontSize:"15px"}}>Want your project-asset to be protected as  uToken?</p>
+                                    <div class="mt-2 d-flex align-items-center justify-content-center text-white">
+                                        <div>Contact us:</div>
+                                        <div className='ms-2'><a href="https://t.me/+eXB5_gt3wvtlOGE5"><i class="fa-brands fa-telegram fs-4"></i></a></div>
+                                        <div><a href="https://twitter.com/u369eth"><i class="fa-brands fa-twitter fs-4 ms-3"></i></a></div>
+                                    </div>
+                                    <div class="mt-2 d-flex align-items-center justify-content-center text-white">
+                                        <div>Other inquiries:</div>
+                                        <div className='ms-2'><a href="mailto:u369.eth@protonmail.com"><i class="fa-regular fa-envelope fs-4 ms-3"></i></a></div>
+                                    </div>
+                                    <div class="mt-2 d-flex align-items-center justify-content-center text-white">
+                                        <div>Open-source:</div>
+                                        <div className='ms-2'><a href="#"><i class="fa-brands fa-github fs-4 ms-3"></i></a></div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                </div>
 
+                    <div class="text-center">
+                        <p class="footer-alt pb-3 mb-0 f-14">(Background/image credit to:  CalcPlot3d, a tool by Paul Seeburger)</p>
+                    </div>
+                </footer>
             </div>
         </div>
 
-        <div class="text-center">
-            <p class="footer-alt pb-3 mb-0 f-14">2023 © Copyright, All Rights Reserved</p>
-        </div>
-    </footer>
-    </div>
-    </div>
-   
-  )
+    )
 }
 
 export default Footer

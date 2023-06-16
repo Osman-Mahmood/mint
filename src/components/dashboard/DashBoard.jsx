@@ -14,10 +14,9 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import toast from "react-hot-toast";
 import FirstLanding from "../firstLanding/FirstLanding";
+import logo1 from '../../assets/logo1.png'
 import {
   useAccount,
-  useBalance,
-  useContractRead,
   erc20ABI,
   useChainId,
   useNetwork,
@@ -26,7 +25,6 @@ import { factoryAddress, factoryEthAddresss } from "../../instances/addresses";
 import TokenBalance from "./renders/TokenBalance";
 import UTokenBalance from "./renders/UTokenBalance";
 import Countdown from "react-countdown";
-import { GiPodiumWinner } from "react-icons/gi";
 import AddTokenInWallet from "./renders/AddToWallet";
 const Dashboard = () => {
   let { isReferesh } = useSelector((state) => state.connect);
@@ -55,7 +53,7 @@ const Dashboard = () => {
     }
   };
   const [uNativeBal, setUNativeBal] = useState(null);
-  const [ethAddress, setEthAddress]=useState(null)
+  const [ethAddress, setEthAddress] = useState(null)
   const nativeUBal = async () => {
     try {
       if (chainId == 5 || chainId == 80001) {
@@ -73,7 +71,7 @@ const Dashboard = () => {
         const u_eth_bal = await new_instance.balanceOf(address);
         setUNativeBal(ethers.utils.formatEther(u_eth_bal));
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   const [tokensList, setTokensList] = useState([]);
   const getUTokens = async () => {
@@ -98,7 +96,6 @@ const Dashboard = () => {
         obj.alternateAddress = alternateAddress;
         arr.push(obj);
       }
-      console.log("arr", arr);
       setTokensList(arr);
     } catch (error) {
       console.error("error while get u tokens", error);
@@ -116,6 +113,7 @@ const Dashboard = () => {
   }, [isConnected, chain, isReferesh]);
 
   const withDrawReward = async () => {
+    alert("jjjj")
     try {
       let contract = null;
       let provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -128,6 +126,7 @@ const Dashboard = () => {
       const tx = await contract.withdrawReward();
       await tx.wait();
       getWinnerTime();
+      isRewardClaimed()
       toast.success("Bouns cashed successfully");
     } catch (error) {
       console.error(
@@ -138,6 +137,7 @@ const Dashboard = () => {
   };
   const [rewarArray, setRewardArray] = useState([]);
   const rewardHistory = async () => {
+
     try {
       let contract = null;
       let provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -148,13 +148,13 @@ const Dashboard = () => {
         contract = new Contract(factoryAddress, factoryAbi, signer);
       }
       const pendingPeriodsForReward = await contract.pendingPeriodsForReward();
+      console.log("rewardEth", pendingPeriodsForReward);
       if (pendingPeriodsForReward.length == 0) {
         setRewardArray([]);
         return;
       } else {
         let previousArr = [];
         const rewardEth = await contract.rewardHistoryForEth();
-
         if (ethers.utils.formatEther(rewardEth) > 0) {
           let obj = {};
           obj.symbol = chainId == 5 ? "ETH" : "MATIC";
@@ -193,9 +193,11 @@ const Dashboard = () => {
             }
           }
         }
+        console.log("previousArr", previousArr);
         setRewardArray(previousArr);
       }
     } catch (error) {
+      setRewardArray([]);
       console.error("error while withdraw reward", error);
     }
   };
@@ -259,6 +261,26 @@ const Dashboard = () => {
       );
     }
   };
+  let [isClaimed, setIsClaimed] = useState(true);
+  const isRewardClaimed = async () => {
+    try {
+      if(chainId == 5 || chainId == 80001){
+        let contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
+        if (chainId == 5) {
+          contract = new Contract(factoryEthAddresss, factoryEthAbi, ETHProvider);
+        } else if (chainId == 80001) {
+          contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
+        }
+        const currentPeriod = await contract.get_CurrentPeriod();
+        let IsRewardCollectedOfPeriod = await contract.IsRewardCollectedOfPeriod(currentPeriod);
+        setIsClaimed(IsRewardCollectedOfPeriod)
+        console.log("IsRewardCollectedOfPeriod", IsRewardCollectedOfPeriod);
+      }
+    } catch (error) {
+      console.error("error while is reward claimed", error);
+    }
+  }
+  const [isTimeRemain, setIsTimeRemain] = useState(true)
   const withDrawLimitRender = ({
     days,
     hours,
@@ -267,10 +289,13 @@ const Dashboard = () => {
     completed,
   }) => {
     if (completed) {
+      setIsTimeRemain(true);
+      isRewardClaimed()
       return (
         <div className="timer text-danger d-flex">Claim Time Finished</div>
       );
     } else {
+      setIsTimeRemain(false);
       return (
         <div className="timer text-dark d-flex">
           <li>{days}</li>
@@ -282,6 +307,7 @@ const Dashboard = () => {
     }
   };
   useEffect(() => {
+    isRewardClaimed()
     rewardHistory();
     getWinnerTime();
   }, []);
@@ -290,7 +316,7 @@ const Dashboard = () => {
       <FirstLanding />
       <div className="container-fluid  text-white dashboard">
         <div className="">
-          <ReactTooltip
+          {rewarArray.length > 0 ? <ReactTooltip
             anchorId="app-title"
             place="bottom"
             content={
@@ -301,7 +327,7 @@ const Dashboard = () => {
                     <th>Amount</th>
                   </tr>
                 </thead>
-                {rewarArray.map((item) => {
+                {rewarArray?.map((item) => {
                   return (
                     <tbody>
                       <tr>
@@ -313,8 +339,14 @@ const Dashboard = () => {
                 })}
               </table>
             }
-          />
-          ;
+          /> :
+            <ReactTooltip
+              anchorId="app-title"
+              place="bottom"
+              content="No Reward Found."
+            />
+          }
+
           <div className="row ">
             <div className="col-lg-6 col-sm-12 ">
               {winnerTime == null ? (
@@ -345,15 +377,14 @@ const Dashboard = () => {
                 </div>
                 <div className="d-lg-block d-flex gap-lg-0 gap-5">
                   <h6 className="text-dark">
-                    Winner gets the
+                    Winner gets {" "}
                     <span
                       style={{ cursor: "pointer" }}
                       className="text-primary fw-bold"
                       id="app-title"
                     >
-                      Tokens
-                    </span>{" "}
-                    to be awarded
+                      this reward
+                    </span>
                   </h6>
                   <p
                     className="text-dark mt-2 "
@@ -365,8 +396,8 @@ const Dashboard = () => {
                 <div>
                   {winnerAddress != null ? (
                     <button
-                      className="btn btn-primary btn_height"
-                      disabled={winnerAddress != address}
+                      className={!(winnerAddress == address && isTimeRemain && isClaimed )? "btn btn-light btn_height" : "btn btn-primary btn_height"}
+                      disabled={!(winnerAddress == address && isTimeRemain && isClaimed)}
                       onClick={withDrawReward}
                     >
                       Claim
@@ -389,21 +420,23 @@ const Dashboard = () => {
                 <Table borderless>
                   <thead>
                     <tr className="">
-                      <th className="text-center">U-Assets</th>
-                      <th className="text-center">U-Wallet Balance</th>
+                      <th className="text-center">uAssets</th>
+                      <th className="text-center">uWallet Balance</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td className="text-center">
+                        <img src={logo1} alt="" className="img-fluid img_logo me-2" />
                         {isConnected ? (
-                          `U-${chain.nativeCurrency.symbol}`
+                          `u${chain.nativeCurrency.symbol}`
                         ) : (
                           <Skeleton />
                         )}
                       </td>
                       <td className="text-center">
-                        {uNativeBal ? Number(uNativeBal) : <Skeleton />}
+
+                        {uNativeBal ? (uNativeBal) : <Skeleton />}
                       </td>
                       <td>
                         <AddTokenInWallet address={ethAddress} />
@@ -431,8 +464,13 @@ const Dashboard = () => {
                     {tokensList?.map((item) => {
                       return (
                         <tr>
-                          <td className="text-center">U-{item.label}</td>
+                          <div className="d-flex text-center justify-content-center">
+                            <img src={logo1} alt="" className="img-fluid img_logo me-2" />
+                            <td className="text-center">u{item.label}</td>
+                          </div>
+
                           <td className="text-center">
+
                             {isConnected ? (
                               <UTokenBalance alternateAddress={item.address} />
                             ) : (
@@ -440,9 +478,9 @@ const Dashboard = () => {
                             )}
                           </td>
                           <td>
-                          <AddTokenInWallet address={item.address} />
-                        {/* <Button variant="primary" className="p-0">Add to Wallet</Button> */}
-                      </td>
+                            <AddTokenInWallet address={item.address} />
+                            {/* <Button variant="primary" className="p-0">Add to Wallet</Button> */}
+                          </td>
                           <td>
                             {" "}
                             <ClaimModal
@@ -469,7 +507,7 @@ const Dashboard = () => {
           <div className="col-lg-6 col-sm-12">
             <div className="box shadow">
               <div className="box_content p-3">
-                <h5 className="text-center fw-bold">Can be uTokens</h5>
+                <h5 className="text-center fw-bold">Switch to uTokens</h5>
                 <Table borderless>
                   <thead>
                     <tr>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import ScaleLoader from "react-spinners/ScaleLoader";
+import BeatLoader from "react-spinners/BeatLoader";
 import toast from "react-hot-toast"
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import factoryAbi from "../../instances/abis/factoryAbi.json";
 import { factoryAddress, factoryEthAddresss } from "../../instances/addresses"
 import tokenAbi from "../../instances/abis/erc20_tokenAbi.json"
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch  } from 'react-redux';
 import Web3 from 'web3';
 import { rpc } from '../../utils';
 import { isAddress, isContract } from '../../constants';
@@ -13,13 +13,16 @@ import RecoverPasswordModal from '../passwordModal/RecoverPasswordModal';
 import PasswordModal from '../passwordModal/PasswordModal';
 import { useAccount, useBalance, useContractRead, erc20ABI, useChainId, useNetwork } from 'wagmi';
 import { Contract, ethers } from 'ethers';
-import image from '../../assets/image.png'
+import image from '../../assets/top.jpg'
+import { refreshBalance } from '../../store/wallet/wallet';
 const rpcUrl = new Web3(rpc)
 const Claim = ({ transferType, tokenAddress, onHide }) => {
+  const dispatch = useDispatch();
+  let { isReferesh } = useSelector((state) => state.connect);
   const { address, isConnecting, isDisconnected, isConnected } = useAccount();
   const chainId = useChainId();
 
-  let [etherAmount, setEtherAmount] = useState(0)
+  let [etherAmount, setEtherAmount] = useState()
   const [transferAddress, setTransferAddress] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
   const [pass, setPass] = useState()
@@ -77,6 +80,7 @@ const Claim = ({ transferType, tokenAddress, onHide }) => {
         toast.success("U-Token transfered")
         setEtherAmount(0)
         setIsLoading(false)
+        dispatch(refreshBalance(!isReferesh));
       } else if (transferType == "token") {
        
           setIsLoading(true)
@@ -88,12 +92,17 @@ const Claim = ({ transferType, tokenAddress, onHide }) => {
           toast.success("U-Token transfered")
           setEtherAmount(0)
           setIsLoading(false)
+          dispatch(refreshBalance(!isReferesh));
         }
       
       
     } catch (error) {
       setIsLoading(false)
       const errorData = JSON.parse(JSON.stringify(error));
+      if(errorData.message){
+        toast.error(errorData.message);
+        return
+      }
       if (errorData && chainId == 5) {
         toast.error(errorData.error.message);
       } else if (errorData && chainId == 80001) {
@@ -188,7 +197,7 @@ const Claim = ({ transferType, tokenAddress, onHide }) => {
                     disabled={!isConnected}
                     onClick={() => transferUTokens()}>
                     {
-                      isLoading ? <ScaleLoader color="#36d7b7" /> : "Transfer"
+                      isLoading ? <BeatLoader color="#fff" /> : "Transfer"
                     }
                   </button>
                 </div>
