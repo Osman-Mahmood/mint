@@ -1,5 +1,7 @@
 import React from 'react'
 import intro from '../../assets/intro.jpg'
+
+import {AiOutlineCheck} from 'react-icons/ai'
 import '../style.css'
 
 import Accordion from "react-bootstrap/Accordion";
@@ -23,9 +25,10 @@ const Intro = () => {
               >
                 <Accordion.Header className=" accordion-bg">
                   (1)
-                  Constantly, the u369.eth smart contract
+                  Constantly, the u369.eth smart contract >>
                 </Accordion.Header>
-                <Accordion.Body>(i) Protects your digital assets from being stolen, <br /> (ii) Reward its users and <br /> (iii) Fund public goods ✨
+                <Accordion.Body>(i) protects your digital assets from being stolen <br /> (ii) reward its users and <br /> (iii) fund public goods 
+                <p className='text-center'>✨</p>
                 </Accordion.Body>
               </Accordion.Item>
             </div>
@@ -40,9 +43,16 @@ const Intro = () => {
               >
                 <Accordion.Header className=" accordion-bg">
                   (2)
-                  When you connect your wallet for the first time
+                  When you connect your wallet for the first time >>
                 </Accordion.Header>
-                <Accordion.Body> You are provided with a one-time randomly-generated and encrypted 32-charachters-string (i.e., a Master Key) ✨</Accordion.Body>
+                <Accordion.Body>
+you are provided with a one-time, randomly-generated, and encrypted 32-charachters-string (i.e., a Master Key). <br />
+
+As a security precaution, the Master key is only presented in a non-readable format. <br/>
+Copy your Master Key and save it someplace safe. 
+
+                <p className='text-center'>✨</p>
+                </Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -57,11 +67,20 @@ const Intro = () => {
               >
                 <Accordion.Header className=" accordion-bg">
                   (3)
-                  Once you have saved your Master Key someplace safe
+                  Once you have saved your Master Key someplace safe >>
                 </Accordion.Header>
-                <Accordion.Body>You can proceed to protect your digital assets: (A) Create a password, (B) Confirm the password (C) sign an on-chain Tx to set password, and (D) Supply any amount of ETH or any amount of ERC20 from this list ✨
+                <Accordion.Body> you can proceed to protect your digital assets: (A) create a password, (B) confirm the password and (C) supply any amount of ETH, or any amount of ERC20 from this list:
 
-                  Note: The Master Key provided in the beginning is the unique authentication code to reset/change or bypass the password you created. PLEASE DO NOT LOSE YOUR MASTER KEY, OTHERWISE YOUR FUNDS WILL BE STUCK FOREVER IN THE SMART CONTRACT if you ever forget or lose the password you created ✨</Accordion.Body>
+When users hover the mouse over “this list” we will show like this (if we can it can be 6,  5,  4 or 3 tokens per line/row, whatever works on your end to make it look good on PC and on mobile)
+
+(logo)ETH  (logo) wstETH  (logo)rETH  (logo)cbETH  (logo)WBTC  (logo) AAVE
+
+(logo)UNI  (logo)MAKER  (logo)LINK  (logo)LDO  (logo)SNX  (logo)BAL
+
+(logo)DAI  (logo)USDC  (logo)USDT  (logo)LUSD  (logo)GHO  (logo)CRV
+ 
+                  <p className='text-center'>✨</p>
+                  </Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -76,13 +95,14 @@ const Intro = () => {
               >
                 <Accordion.Header className=" accordion-bg">
                   (4)
-                  Upon supplying your native digital asset into the smart contract
+                  Upon depositing your native digital asset into the smart contract >> 
                 </Accordion.Header>
-                <Accordion.Body> 0.369% of the deposited amount is automatically collected by u369.eth smart contract.
+                <Accordion.Body> a benefaction-fee of 0.369% of the deposited amount will be automatically collected by u369.eth smart contract. The remaining amount stays hard-locked and controlled by you. <br />
 
-                  The remaining amount would remain locked under your power and the smart contract will automatically issue/mint a 1:1 wrapped version of the deposited/locked ETH or ERC20.
+At the moment of hard-locking your native asset, the smart contract automatically issues/mints a 1:1 wrapped version of the hard-locked token. <br />
+Exegesis: If you hard-lock 1.369 ETH: The smart contract collects the 0.369% ETH as benefaction-fee and issues to your wallet 1 uETH (it can be read as is "1 uETH" or as "1 unstealable ETH")
 
-Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect the 0.369% ETH as fee and will issue to your wallet 1 uETH (it can be read as is "1 uETH" or as "1 unstealable ETH") ✨
+<p className='text-center'>✨</p>
                 </Accordion.Body>
               </Accordion.Item>
             </div>
@@ -101,9 +121,11 @@ Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect th
               >
                 <Accordion.Header className=" accordion-bg">
                   (5)
-                  When wrapping ETH or ERC20, the smart contract
+                  The 0.369% collected by the smart contract is >>
                 </Accordion.Header>
-                <Accordion.Body> Automatically collects 0.369% from the  respective supplied/locked token ✨</Accordion.Body>
+                <Accordion.Body>  used to fund public goods, to reward participants and to sustain u369.eth.
+                <p className='text-center'>✨</p>
+                </Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -118,10 +140,11 @@ Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect th
               >
                 <Accordion.Header className=" accordion-bg">
                   (6)
-                  The 0.369% collected by the smart contract is a ,
+                  When wrapping ETH or ERC20, the smart contract >>
                 </Accordion.Header>
                 <Accordion.Body>
-                  Benefaction-fee, used to fund public goods, to reward participants, to sustain u369.eth ✨</Accordion.Body>
+                collects the 0.369% benefaction-fee from the supplied/hard-locked native token(s).
+                  <p className='text-center'>✨</p></Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -136,13 +159,18 @@ Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect th
               >
                 <Accordion.Header className=" accordion-bg">
                   (7)
-                  The benefaction-fee is distributed as follows
+                  The benefaction-fee is distributed as follows >>
                 </Accordion.Header>
                 <Accordion.Body>
-                  <br />30% to fund public goods ✨<br />
-                  30% to reward 1 participant every 369 hours ✨ <br />
-                  30% to sustain u369.eth and  <br />
-                  10% to developers and any organizations promoting/helping with moral & civic values ✨</Accordion.Body>
+                  <br /><AiOutlineCheck style={{color:"green"}}/> 30% to fund public goods <br />
+                  Automatically: 10% sent to the protocolguild.eth -see Txs here-.<br />
+                  Manually: 10% sent to Giveth. See Txs here. <br />
+                  Manually: 10% sent to orgs promoting/distilling moral & civic values). See Txs here. <br />
+                  <AiOutlineCheck style={{color:"green"}}/> 30% to programmatically and automatically reward its user-base. See Tx here. <br />
+                  <AiOutlineCheck style={{color:"green"}}/> 10% for developers & educators. See Txs here.  <br />
+                  <AiOutlineCheck style={{color:"green"}}/> 30% to sustain u369.eth the public good itself. See Txs here.
+                  <p className='text-center'>✨</p>
+                  </Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -157,12 +185,14 @@ Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect th
               >
                 <Accordion.Header className=" accordion-bg">
                   (8)
-                  After wrapping the native tokens into uTokens
+                  After wrapping the native tokens into uTokens >>
                 </Accordion.Header>
                 <Accordion.Body>
-                  For example uETH if ETH is locked or ustETH if stETH is locked; it becomes extremely difficult for any bad actor to steal the wrapped uTokens.
+                for example getting uETH if ETH is hard-locked or getting  uwstETH if wstETH is hard-locked, it becomes extremely difficult for any bad actor to steal the uTokens. <br />
+To move/transfer your uTokens, the bad actor would also need to have your password or your unique authentication code (Master Key); without the password or the Master Key, it is impossible to move your uTokens<strong>, even if the bad actor has gained access to your wallet's private keys!!</strong>
 
-                  To move/transfer your uTokens, the bad actor would also need to have your password or unique authentication code (Master Key); without the password or the Master Key, it is impossible to move your uTokens, even if the bad actor has gained access to your wallet's private keys ✨ ✨ ✨</Accordion.Body>
+                  <p className='text-center'>✨</p>
+                  </Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -182,12 +212,12 @@ Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect th
               >
                 <Accordion.Header className=" accordion-bg">
                   (9)
-                  Only the rightful owners of uTokens can
+                  Only the rightful owners of uTokens can >>
                 </Accordion.Header>
                 <Accordion.Body>
-                  Transfer their uTokens to any 0X address, and also can claim the native tokens held inside the u369.eth smart contract.
-
-                  To transfer uTokens: (A) the owner comes to the u369.eth smart-contract interface, (B) Clicks on "Transfer", (C) Inputs the amount to transfer and inputs their password, (D) Signs the on-chain Tx to send the uTokens ✨</Accordion.Body>
+                transfer their uTokens to any 0x address. To transfer uTokens: (A) the owner comes to the u369.eth smart-contract interface, (B) clicks on "Transfer", (C) inputs the amount to transfer, (E) inputs their password, and(D) signs the Tx to send the uTokens. Done!
+                  <p className='text-center'>✨</p>
+                  </Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -202,10 +232,14 @@ Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect th
               >
                 <Accordion.Header className=" accordion-bg">
                   (10)
-                  Any new owner/recipient of uTokens can transfer them
+                
+ Any new owner/recipient of the uTokens can >>
+
                 </Accordion.Header>
                 <Accordion.Body>
-                  If the new owner of the uToken(s) Comes for the first time to the u369.eth interface, they shall perform the steps provided in point 3 above and proceed to transfer their uTokens ✨</Accordion.Body>
+                also transfer their uTokens. A new owner/recipient of uTokens coming for the first time to the u369.eth smart contract interface, without anyone’s permission, can initiate the flow to receive their Master Key and set password (as previously explained in step 2). Once the password is set, they can transfer their uTokens.
+                  <p className='text-center'>✨</p>
+                  </Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -220,10 +254,12 @@ Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect th
               >
                 <Accordion.Header className=" accordion-bg">
                   (11)
-                  Any new owner/recipient of the uTokens can claim
+                  Only the minter or the new recipient of uTokens can >>
                 </Accordion.Header>
                 <Accordion.Body>
-                  The protected native tokens by clicking the "Claim" button/function to claim/redeem the native tokens ✨</Accordion.Body>
+                claim the protected native tokens. To redeem the hard-locked native tokens, the rightful owner in possession of the uTokens can: (A) Click on the “Claim” button, (B) input the amount of native tokens they want to unlock/claim, (C) input the password and sign the Tx, (D) the smart contract burns the respective amount of uTokens and automatically releases the native tokens to the correspondent owner of the 0x claiming address.
+                  <p className='text-center'>✨</p>
+                  </Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>
@@ -238,12 +274,14 @@ Exegesis: If you supplied/locked 1.369 ETH >> the smart contract will collect th
               >
                 <Accordion.Header className=" accordion-bg">
                   (12)
-                  To redeem or claim the protected native tokens
-                </Accordion.Header>
+                  To redeem or claim the protected native tokens >>
+                </Accordion.Header> 
                 <Accordion.Body>
                   (A) The owner of the uTokens sends the amount of uTokens they want to unlock to the smart contract (B) the smart contract burns the uTokens and automatically releases the native protected tokens to the correspondent 0x address.
 
-Example: 1ETH locked >> owner of the 1uETH clicks on "Claim" button >> the owner must input the amount to redeem, input their password >> and sign the on-chain Tx to send the 1uETH to the contract (sender pays validators/network fee to process the Tx) >> smart-contract burns the 1 uETH and releases the 1ETH to the designated 0x address ✨</Accordion.Body>
+Example: 1ETH locked >> owner of the 1uETH clicks on "Claim" button >> the owner must input the amount to redeem, input their password >> and sign the on-chain Tx to send the 1uETH to the contract (sender pays validators/network fee to process the Tx) >> smart-contract burns the 1 uETH and releases the 1ETH to the designated 0x address 
+<p className='text-center'>✨</p>
+</Accordion.Body>
               </Accordion.Item>
             </div>
           </Accordion>

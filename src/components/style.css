@@ -186,7 +186,7 @@
 } */
 
 .bg-footer_img {
-    background-image: url('../assets/final_bg.jpeg');
+    background-image: url('../assets/footer_mint.jpg');
     width: 100%;
     /* position: absolute;
     bottom: 0px; */
@@ -563,6 +563,11 @@ td {
   }
 
   @media screen and (max-width: 600px) {
+    .mobile_menu{
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
     .new_box h5 {
         font-size: 20px !important;
         font-weight: bold !important;
@@ -722,4 +727,15 @@ background-color: #0e6efdc5 !important;
     backdrop-filter: blur(8px);
     /* background-image: url('../assets/top.jpg') !important; */
     
+}
+.accordion-button::after {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: auto;
+    content: "";
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%230000FF' fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    transition: transform .2s ease-in-out;
 }

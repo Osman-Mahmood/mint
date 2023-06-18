@@ -15,10 +15,10 @@ const Footer = () => {
                     
                     </div> */}
                                 </div>
-                                <div class="col-lg-6 mt-3 text-end d-flex align-items-center justify-content-center">
+                                <div class="col-lg-6 mt-3 text-end d-flex justify-content-center">
                                     <div class="text-center">
                                         {/* <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6> */}
-                                        <p className=' text-uppercase fw-normal fs-5  text-white'>Ascribing meaningful safety to the <br />  digital-assets-ecosystem.</p>
+                                        <p className=' text-uppercase fw-normal fs-5  text-white'>Ascribing meaningful safety to the  digital-assets-ecosystem.</p>
 
                                     </div>
                                 </div>
@@ -28,19 +28,19 @@ const Footer = () => {
 
 
                             <div class="col-lg-4 mt-3 ">
-                                <div class="d-flex align-items-center justify-content-center flex-column">
-                                    <p class="contact-info fw-bold" style={{fontSize:"15px"}}>Want your project-asset to be protected as  uToken?</p>
+                                <div class="d-flex align-items-end justify-content-end flex-column text-start mobile_menu mb-lg-0 mb-3">
+                                    <p class="contact-info fw-normal fs-5">Want your project-asset to <br /> be protected as  uToken?</p>
                                     <div class="mt-2 d-flex align-items-center justify-content-center text-white">
-                                        <div>Contact us:</div>
+                                        <div className='text-start'>Contact us:</div>
                                         <div className='ms-2'><a href="https://t.me/+eXB5_gt3wvtlOGE5"><i class="fa-brands fa-telegram fs-4"></i></a></div>
                                         <div><a href="https://twitter.com/u369eth"><i class="fa-brands fa-twitter fs-4 ms-3"></i></a></div>
                                     </div>
                                     <div class="mt-2 d-flex align-items-center justify-content-center text-white">
-                                        <div>Other inquiries:</div>
+                                        <div className='ms-2'>Other inquiries:</div>
                                         <div className='ms-2'><a href="mailto:u369.eth@protonmail.com"><i class="fa-regular fa-envelope fs-4 ms-3"></i></a></div>
                                     </div>
                                     <div class="mt-2 d-flex align-items-center justify-content-center text-white">
-                                        <div>Open-source:</div>
+                                        <div className='me-2'>Open-source:</div>
                                         <div className='ms-2'><a href="#"><i class="fa-brands fa-github fs-4 ms-3"></i></a></div>
                                     </div>
                                 </div>

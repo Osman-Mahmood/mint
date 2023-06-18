@@ -21,10 +21,13 @@ const Eth = () => {
                           className=" accordion-bg"
                         >
                           <Accordion.Header className=" accordion-bg">
-                          u369.eth is a public good born with… 
+                         u369.eth is a public good born with purpose and >>
                           </Accordion.Header>
                           <Accordion.Body>  
-                          Born with the purpose and determination of enhancing the safety of the digital-assets industry, by implementing a non-upgradable smart contract <span className='fw-bold' data-toggle="tooltip" data-placement="top" title="The code is 100% immutable, with only one exception: adding ERC20 tokens or NFTs to be minted into uTokens. Once a token is added, it can't be removed.">(hint) </span>to provide you with an extra layer of protection to secure your digital assets (i.e., ETH, ERC20s and NFTs).</Accordion.Body>
+                          determination to enhance the safety of the cryptographic digital assets, by implementing a non-upgradeable smart contract to provide you with an extra layer of protection .
+
+u369.eth smart contract is immutable. The append-only exception is exclusively to add new tokens. Once a token is added, it can’t be deleted. Tokens and uTokens can be switched back and forth, at will and without permission.
+</Accordion.Body>
                         </Accordion.Item>
                       </div>
                     </Accordion>
@@ -38,14 +41,19 @@ const Eth = () => {
                           className=" accordion-bg"
                         >
                           <Accordion.Header className=" accordion-bg">
-                          Self-sustained and self-organizing distributed system
+                          A self-sustained and self-organizing distributed system >> 
                           </Accordion.Header>
                           <Accordion.Body>  
-                          Automatically giving away the smart contrac's revenue as follows:<br />
-<AiOutlineCheck style={{color:"green"}}/> 30% to fund public goods <br />
-<AiOutlineCheck style={{color:"green"}}/> 30% to reward its user-base<br />
-<AiOutlineCheck style={{color:"green"}}/> 10% to benefact (A) Developers and (B) Organizations promoting society's moral & civic values <br />
-<AiOutlineCheck style={{color:"green"}}/> 30% to u369.eth the public good itself</Accordion.Body>
+                          An open-source smart contract
+A non-custodial protocol that aims to make the cryptographic digital assets hacker-proof.
+The U in uTokens stands for “unstealable”, “unhackable”.
+All these points in bold below are to left out as we mention it in the “How it works” so we will be removing them from there
+<br />
+                           Giving away the smart contract’s fees as follows:<br />
+<AiOutlineCheck className='me-1' style={{color:"green"}}/> 30% to fund public goods (10% to the protocolguild.eth; 10% to giveth; 10% to orgs promoting/distilling moral & civic values) <br />
+<AiOutlineCheck className='me-1' style={{color:"green"}}/>30% to programmatically reward its user-base<br />
+<AiOutlineCheck className='me-1' style={{color:"green"}}/>10% for developers & educators<br />
+<AiOutlineCheck className='me-1' style={{color:"green"}}/>30% to u369.eth the public good itself</Accordion.Body>
                         </Accordion.Item>
                       </div>
                     </Accordion>
