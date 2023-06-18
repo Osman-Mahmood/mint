@@ -15,7 +15,7 @@ const Footer = () => {
                     
                     </div> */}
                                 </div>
-                                <div class="col-lg-6 mt-3 text-end d-flex justify-content-center">
+                                <div class="col-lg-6 mt-3 text-end align-items-center d-flex justify-content-center">
                                     <div class="text-center">
                                         {/* <h6 class="footer-heading text-uppercase text-white">UnMe mitigating/resolving <br /> specific social problems.</h6> */}
                                         <p className=' text-uppercase fw-normal fs-5  text-white'>Ascribing meaningful safety to the  digital-assets-ecosystem.</p>
