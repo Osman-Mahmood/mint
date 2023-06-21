@@ -9,13 +9,13 @@ const Intro = () => {
 
 
   return (
-    <div className='container-fluid p-5  text-white pb-3'>
+    <div className='container-fluid p-5  text-white pb-3  mt-lg-5 mt-0 mb-lg-5 mb-0 pb-0 pb-lg-5 pb-0 '>
       {/* <img className='w-100 img-fluid intro_img' src={intro} alt="" /> */}
       {/* <h1 className='text-white intro_text'>Distributed systems <br />
         & <br />
         Human Coordination
       </h1> */}
-      <div className='row'>
+      <div className='row pt-lg-5 pt-0'>
         <div className='col-lg-3 col-sm-12 mt-2 mt-lg-0'>
           <Accordion className="accordion-bg">
             <div className="col-md-12">
@@ -200,7 +200,7 @@ const Intro = () => {
         </div>
       </div>
 
-      <div className='row mt-3'>
+      <div className='row mt-3  pb-lg-5 pb-0'>
 
 
         <div className='col-lg-3 col-sm-12 mt-2 mt-lg-0'>
@@ -274,7 +274,7 @@ const Intro = () => {
               >
                 <Accordion.Header className=" accordion-bg">
                   (12)
-                  Final remarks and important notes >>
+                  Final remarks and important notes<br/> >>
                 </Accordion.Header>
                 <Accordion.Body>
                 Important Note: The Master Key provided in the beginning is the unique authentication code to reset/change the password you created. PLEASE DO NOT LOSE YOUR MASTER KEY, otherwise, if you ever lose the password you created >> your funds will be stuck forever in the smart contract as no one can recover that password nor the Master Key for you.

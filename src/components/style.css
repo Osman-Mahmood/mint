@@ -1,6 +1,10 @@
 .navbar-nav a:hover {
     color: lightgray !important;
 }
+.eth_intro{
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+}
 .dashboard{
     padding-bottom: 33px;
     padding-top: 10px;

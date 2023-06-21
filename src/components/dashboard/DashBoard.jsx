@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "../style.css";
 import Table from "react-bootstrap/Table";
 import { Contract, errors, ethers } from "ethers";
@@ -21,7 +21,9 @@ import TokenBalance from "./renders/TokenBalance";
 import UTokenBalance from "./renders/UTokenBalance";
 import Countdown from "react-countdown";
 import AddTokenInWallet from "./renders/AddToWallet";
+import { refreshBalance } from "../../store/wallet/wallet";
 const Dashboard = () => {
+  const dispatch = useDispatch()
   let { isReferesh } = useSelector((state) => state.connect);
   const { chain } = useNetwork();
 
@@ -134,7 +136,7 @@ const Dashboard = () => {
           if (currentTime > rewardLimit.toNumber()) {
             setIsClaimEnables(false);
           } else {
-            const isRewardCollected = await contract.IsRewardCollectedOfPeriod(previousPeriod + 1);
+            const isRewardCollected = await contract.IsRewardCollectedOfPeriod(previousPeriod);
             isRewardCollected ? setIsClaimEnables(false) : setIsClaimEnables(true);
           }
         } else {
@@ -160,8 +162,9 @@ const Dashboard = () => {
       await tx.wait();
       getWinnerTime();
       setIsClaimEnables(false);
-      // isRewardClaimed()
       rewardHistory();
+      getBal()
+      dispatch(refreshBalance(!isReferesh));
       toast.success("Bouns cashed successfully");
     } catch (error) {
       console.error(
@@ -267,6 +270,7 @@ const Dashboard = () => {
     if (completed) {
       getWinnerTime();
       rewardHistory();
+      claimButtonStatus()
       // isRewardClaimed();
     } else {
       return (

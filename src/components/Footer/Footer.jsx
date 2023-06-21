@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <div className='bg-footer_img'>
+        <div className='bg-footer_img pt-5'>
             <div className='container-fluid'>
                 <footer class="section ">
                     <div class="container">
@@ -24,11 +24,8 @@ const Footer = () => {
                                 </div>
                             </div>
 
-
-
-
                             <div class="col-lg-4 mt-3 ">
-                                <div class="d-flex align-items-end justify-content-end flex-column text-start mobile_menu mb-lg-0 mb-3">
+                                <div class="d-flex align-items-end justify-content-end flex-column text-start   mobile_menu mb-lg-0 mb-3">
                                     <p class="contact-info fw-normal fs-5">Want your project-asset to <br /> be protected as  uToken?</p>
                                     <div class="mt-2 d-flex align-items-center justify-content-center text-white">
                                         <div className='text-start'>Contact us:</div>
