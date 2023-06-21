@@ -112,8 +112,8 @@ const Dashboard = () => {
     }
   }, [isConnected, chain, isReferesh]);
 
+  const [isClaimEnabled, setIsClaimEnables] = useState(true);
   const withDrawReward = async () => {
-    alert("jjjj")
     try {
       let contract = null;
       let provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -126,7 +126,9 @@ const Dashboard = () => {
       const tx = await contract.withdrawReward();
       await tx.wait();
       getWinnerTime();
-      isRewardClaimed()
+      setIsClaimEnables(false);
+      // isRewardClaimed()
+      rewardHistory()
       toast.success("Bouns cashed successfully");
     } catch (error) {
       console.error(
@@ -233,6 +235,7 @@ const Dashboard = () => {
     if (completed) {
       getWinnerTime();
       rewardHistory();
+      isRewardClaimed()
     } else {
       return (
         <div className="new_box p-3 d-flex rounded justify-content-around">
@@ -261,10 +264,10 @@ const Dashboard = () => {
       );
     }
   };
-  let [isClaimed, setIsClaimed] = useState(true);
+  
   const isRewardClaimed = async () => {
     try {
-      if(chainId == 5 || chainId == 80001){
+      if (chainId == 5 || chainId == 80001) {
         let contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
         if (chainId == 5) {
           contract = new Contract(factoryEthAddresss, factoryEthAbi, ETHProvider);
@@ -273,14 +276,24 @@ const Dashboard = () => {
         }
         const currentPeriod = await contract.get_CurrentPeriod();
         let IsRewardCollectedOfPeriod = await contract.IsRewardCollectedOfPeriod(currentPeriod);
-        setIsClaimed(IsRewardCollectedOfPeriod)
+        console.log("IsRewardCollectedOfPeriod", IsRewardCollectedOfPeriod);
+        let givenTimestamp = await contract.get_TimeLimitForWinnerForCurrentPeriod();
+        givenTimestamp = givenTimestamp.toNumber()
+        console.log("givenTimestamp",givenTimestamp )
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        if (givenTimestamp < currentTimestamp && IsRewardCollectedOfPeriod) {
+          console.log("The given timestamp is in the past.");
+          setIsClaimEnables(false)
+        } 
+
+
         console.log("IsRewardCollectedOfPeriod", IsRewardCollectedOfPeriod);
       }
     } catch (error) {
       console.error("error while is reward claimed", error);
     }
   }
-  const [isTimeRemain, setIsTimeRemain] = useState(true)
+ 
   const withDrawLimitRender = ({
     days,
     hours,
@@ -289,13 +302,12 @@ const Dashboard = () => {
     completed,
   }) => {
     if (completed) {
-      setIsTimeRemain(true);
+      // setIsClaimEnables(false);
       isRewardClaimed()
       return (
         <div className="timer text-danger d-flex">Claim Time Finished</div>
       );
     } else {
-      setIsTimeRemain(false);
       return (
         <div className="timer text-dark d-flex">
           <li>{days}</li>
@@ -308,6 +320,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     isRewardClaimed()
+    // withDrawLimitRender()
     rewardHistory();
     getWinnerTime();
   }, []);
@@ -394,17 +407,20 @@ const Dashboard = () => {
                   </p>
                 </div>
                 <div>
+
                   {winnerAddress != null ? (
                     <button
-                      className={!(winnerAddress == address && isTimeRemain && isClaimed )? "btn btn-light btn_height" : "btn btn-primary btn_height"}
-                      disabled={!(winnerAddress == address && isTimeRemain && isClaimed)}
+                      className={!(winnerAddress == address && isClaimEnabled) ? "btn btn-light btn_height" : "btn btn-primary btn_height"}
+                      disabled={!(winnerAddress == address && isClaimEnabled)}
                       onClick={withDrawReward}
                     >
                       Claim
                     </button>
+
                   ) : (
                     <Skeleton />
                   )}
+
                 </div>
               </div>
             </div>
