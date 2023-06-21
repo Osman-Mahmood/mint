@@ -14,13 +14,8 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import toast from "react-hot-toast";
 import FirstLanding from "../firstLanding/FirstLanding";
-import logo1 from '../../assets/logo1.png'
-import {
-  useAccount,
-  erc20ABI,
-  useChainId,
-  useNetwork,
-} from "wagmi";
+import logo1 from "../../assets/logo1.png";
+import { useAccount, erc20ABI, useChainId, useNetwork } from "wagmi";
 import { factoryAddress, factoryEthAddresss } from "../../instances/addresses";
 import TokenBalance from "./renders/TokenBalance";
 import UTokenBalance from "./renders/UTokenBalance";
@@ -53,7 +48,7 @@ const Dashboard = () => {
     }
   };
   const [uNativeBal, setUNativeBal] = useState(null);
-  const [ethAddress, setEthAddress] = useState(null)
+  const [ethAddress, setEthAddress] = useState(null);
   const nativeUBal = async () => {
     try {
       if (chainId == 5 || chainId == 80001) {
@@ -66,12 +61,12 @@ const Dashboard = () => {
           contract = new Contract(factoryAddress, factoryAbi, signer);
         }
         let u_eth_address = await contract.deployedAddressOfEth();
-        setEthAddress(u_eth_address)
+        setEthAddress(u_eth_address);
         const new_instance = new Contract(u_eth_address, erc20ABI, signer);
         const u_eth_bal = await new_instance.balanceOf(address);
         setUNativeBal(ethers.utils.formatEther(u_eth_bal));
       }
-    } catch (error) { }
+    } catch (error) {}
   };
   const [tokensList, setTokensList] = useState([]);
   const getUTokens = async () => {
@@ -112,6 +107,44 @@ const Dashboard = () => {
     }
   }, [isConnected, chain, isReferesh]);
 
+  const claimButtonStatus = async () => {
+    try {
+      if (chainId == 5 || chainId == 80001) {
+        let contract = new Contract(
+          factoryAddress,
+          factoryAbi,
+          PolygonProvider
+        );
+        if (chainId == 5) {
+          contract = new Contract(
+            factoryEthAddresss,
+            factoryEthAbi,
+            ETHProvider
+          );
+        } else if (chainId == 80001) {
+          contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
+        }
+        const previousPeriod = await contract.get_PreviousPeriod();
+        const isDepositedInPeriod = await contract.IsDepositedInPeriod(
+          previousPeriod
+        );
+        if (isDepositedInPeriod) {
+          const rewardLimit = await contract.get_TimeLimitForWinnerForCurrentPeriod();
+          const currentTime = Date.now() / 1000;
+          if (currentTime > rewardLimit.toNumber()) {
+            setIsClaimEnables(false);
+          } else {
+            const isRewardCollected = await contract.IsRewardCollectedOfPeriod(previousPeriod + 1);
+            isRewardCollected ? setIsClaimEnables(false) : setIsClaimEnables(true);
+          }
+        } else {
+          setIsClaimEnables(false);
+        }
+      }
+    } catch (error) {
+      console.error("error while claim button status", error);
+    }
+  };
   const [isClaimEnabled, setIsClaimEnables] = useState(true);
   const withDrawReward = async () => {
     try {
@@ -128,7 +161,7 @@ const Dashboard = () => {
       getWinnerTime();
       setIsClaimEnables(false);
       // isRewardClaimed()
-      rewardHistory()
+      rewardHistory();
       toast.success("Bouns cashed successfully");
     } catch (error) {
       console.error(
@@ -139,7 +172,6 @@ const Dashboard = () => {
   };
   const [rewarArray, setRewardArray] = useState([]);
   const rewardHistory = async () => {
-
     try {
       let contract = null;
       let provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -235,7 +267,7 @@ const Dashboard = () => {
     if (completed) {
       getWinnerTime();
       rewardHistory();
-      isRewardClaimed()
+      // isRewardClaimed();
     } else {
       return (
         <div className="new_box p-3 d-flex rounded justify-content-around">
@@ -264,36 +296,45 @@ const Dashboard = () => {
       );
     }
   };
-  
-  const isRewardClaimed = async () => {
-    try {
-      if (chainId == 5 || chainId == 80001) {
-        let contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
-        if (chainId == 5) {
-          contract = new Contract(factoryEthAddresss, factoryEthAbi, ETHProvider);
-        } else if (chainId == 80001) {
-          contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
-        }
-        const currentPeriod = await contract.get_CurrentPeriod();
-        let IsRewardCollectedOfPeriod = await contract.IsRewardCollectedOfPeriod(currentPeriod);
-        console.log("IsRewardCollectedOfPeriod", IsRewardCollectedOfPeriod);
-        let givenTimestamp = await contract.get_TimeLimitForWinnerForCurrentPeriod();
-        givenTimestamp = givenTimestamp.toNumber()
-        console.log("givenTimestamp",givenTimestamp )
-        const currentTimestamp = Math.floor(Date.now() / 1000);
-        if (givenTimestamp < currentTimestamp && IsRewardCollectedOfPeriod) {
-          console.log("The given timestamp is in the past.");
-          setIsClaimEnables(false)
-        } 
 
+  // const isRewardClaimed = async () => {
+  //   try {
+  //     if (chainId == 5 || chainId == 80001) {
+  //       let contract = new Contract(
+  //         factoryAddress,
+  //         factoryAbi,
+  //         PolygonProvider
+  //       );
+  //       if (chainId == 5) {
+  //         contract = new Contract(
+  //           factoryEthAddresss,
+  //           factoryEthAbi,
+  //           ETHProvider
+  //         );
+  //       } else if (chainId == 80001) {
+  //         contract = new Contract(factoryAddress, factoryAbi, PolygonProvider);
+  //       }
+  //       const currentPeriod = await contract.get_CurrentPeriod();
+  //       let IsRewardCollectedOfPeriod =
+  //         await contract.IsRewardCollectedOfPeriod(currentPeriod);
+  //       console.log("IsRewardCollectedOfPeriod", IsRewardCollectedOfPeriod);
+  //       let givenTimestamp =
+  //         await contract.get_TimeLimitForWinnerForCurrentPeriod();
+  //       givenTimestamp = givenTimestamp.toNumber();
+  //       console.log("givenTimestamp", givenTimestamp);
+  //       const currentTimestamp = Math.floor(Date.now() / 1000);
+  //       if (givenTimestamp < currentTimestamp && IsRewardCollectedOfPeriod) {
+  //         console.log("The given timestamp is in the past.");
+  //         setIsClaimEnables(false);
+  //       }
 
-        console.log("IsRewardCollectedOfPeriod", IsRewardCollectedOfPeriod);
-      }
-    } catch (error) {
-      console.error("error while is reward claimed", error);
-    }
-  }
- 
+  //       console.log("IsRewardCollectedOfPeriod", IsRewardCollectedOfPeriod);
+  //     }
+  //   } catch (error) {
+  //     console.error("error while is reward claimed", error);
+  //   }
+  // };
+
   const withDrawLimitRender = ({
     days,
     hours,
@@ -302,12 +343,13 @@ const Dashboard = () => {
     completed,
   }) => {
     if (completed) {
-      // setIsClaimEnables(false);
-      isRewardClaimed()
+      setIsClaimEnables(false);
+      // isRewardClaimed();
       return (
         <div className="timer text-danger d-flex">Claim Time Finished</div>
       );
     } else {
+      setIsClaimEnables(isClaimEnabled);
       return (
         <div className="timer text-dark d-flex">
           <li>{days}</li>
@@ -319,46 +361,49 @@ const Dashboard = () => {
     }
   };
   useEffect(() => {
-    isRewardClaimed()
+    // isRewardClaimed();
     // withDrawLimitRender()
     rewardHistory();
     getWinnerTime();
+    claimButtonStatus();
   }, []);
   return (
     <>
       <FirstLanding />
       <div className="container-fluid  text-white dashboard">
         <div className="">
-          {rewarArray.length > 0 ? <ReactTooltip
-            anchorId="app-title"
-            place="bottom"
-            content={
-              <table>
-                <thead>
-                  <tr>
-                    <th>Token</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                {rewarArray?.map((item) => {
-                  return (
-                    <tbody>
-                      <tr>
-                        <th>{item.symbol}</th>
-                        <th>{item.amount}</th>
-                      </tr>
-                    </tbody>
-                  );
-                })}
-              </table>
-            }
-          /> :
+          {rewarArray.length > 0 ? (
+            <ReactTooltip
+              anchorId="app-title"
+              place="bottom"
+              content={
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Token</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  {rewarArray?.map((item) => {
+                    return (
+                      <tbody>
+                        <tr>
+                          <th>{item.symbol}</th>
+                          <th>{item.amount}</th>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </table>
+              }
+            />
+          ) : (
             <ReactTooltip
               anchorId="app-title"
               place="bottom"
               content="No Reward Found."
             />
-          }
+          )}
 
           <div className="row ">
             <div className="col-lg-6 col-sm-12 ">
@@ -390,7 +435,7 @@ const Dashboard = () => {
                 </div>
                 <div className="d-lg-block d-flex gap-lg-0 gap-5">
                   <h6 className="text-dark">
-                    Winner gets {" "}
+                    Winner gets{" "}
                     <span
                       style={{ cursor: "pointer" }}
                       className="text-primary fw-bold"
@@ -407,20 +452,21 @@ const Dashboard = () => {
                   </p>
                 </div>
                 <div>
-
                   {winnerAddress != null ? (
                     <button
-                      className={!(winnerAddress == address && isClaimEnabled) ? "btn btn-light btn_height" : "btn btn-primary btn_height"}
+                      className={
+                        !(winnerAddress == address && isClaimEnabled)
+                          ? "btn btn-light btn_height"
+                          : "btn btn-primary btn_height"
+                      }
                       disabled={!(winnerAddress == address && isClaimEnabled)}
                       onClick={withDrawReward}
                     >
                       Claim
                     </button>
-
                   ) : (
                     <Skeleton />
                   )}
-
                 </div>
               </div>
             </div>
@@ -443,7 +489,11 @@ const Dashboard = () => {
                   <tbody>
                     <tr>
                       <td className="text-center">
-                        <img src={logo1} alt="" className="img-fluid img_logo me-2" />
+                        <img
+                          src={logo1}
+                          alt=""
+                          className="img-fluid img_logo me-2"
+                        />
                         {isConnected ? (
                           `u${chain.nativeCurrency.symbol}`
                         ) : (
@@ -451,8 +501,7 @@ const Dashboard = () => {
                         )}
                       </td>
                       <td className="text-center">
-
-                        {uNativeBal ? (uNativeBal) : <Skeleton />}
+                        {uNativeBal ? uNativeBal : <Skeleton />}
                       </td>
                       <td>
                         <AddTokenInWallet address={ethAddress} />
@@ -481,12 +530,15 @@ const Dashboard = () => {
                       return (
                         <tr>
                           <div className="d-flex text-center justify-content-center">
-                            <img src={logo1} alt="" className="img-fluid img_logo me-2" />
+                            <img
+                              src={logo1}
+                              alt=""
+                              className="img-fluid img_logo me-2"
+                            />
                             <td className="text-center">u{item.label}</td>
                           </div>
 
                           <td className="text-center">
-
                             {isConnected ? (
                               <UTokenBalance alternateAddress={item.address} />
                             ) : (
